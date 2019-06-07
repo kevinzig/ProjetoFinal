@@ -55,43 +55,51 @@ typedef struct{
 
 
 //Zera a Matriz (tipo==0) .
-int zeraMatriz ();
+void zeraMatriz ();
 
 
 //Gera a Fronteira do Tabuleiro (tipo==1).
-int geraLimite();
+void geraLimite();
 
 
 //Gera Relíquia(tipo==2).
-int geraReliquia ();
+void geraReliquia ();
 
 
 //Gera Blocos de Aço (tipo=3).
-int geraBloco();
+void geraBloco();
 
 
 //Gera Tijolos Normais (tipo==4).
-int geraTijolos ();
+void geraTijolos ();
 
 
 //Gera Tanque do Jogador Principal (Osório) (tipo==5).
-int tanqueOsorio ();
+void tanqueOsorio ();
 
 
 //Gera Tanque do Jogador Inimigo (M1 Abrams) (tipo==6).
-int tanqueAbrams ();
+void tanqueAbrams ();
 
 
 //Gera Tanque do Jogador Inimigo Centurion (tipo==7).
-int tanqueCenturion ();
+void tanqueCenturion ();
 
 
 //Imprime o Tabuleiro.
-int imprimeTabuleiro ();
+void imprimeTabuleiro ();
 
 
 //Estrutura de controle do espaçamento.
-int espaco ();
+void espaco ();
+
+
+//Copia o tabuleiro.
+void copiaTabuleiro();
+
+
+//Copia o tabuleiro auxiliar para o principal.
+void colaTabuleiro();
 
 
 
@@ -124,17 +132,18 @@ int giraOsorio ();
 int main() {
 	
 	geral matriz[VETORX][VETORY];
-	int menu,jogada,vardirecao,posx,posy,i,j;
+	geral matrizAux[14][14];
+	int menuprincipal,menujogada,menusair,vardirecao,posx,posy,i,j;
 	
 	do{
 		
 		printf("Bem vindo ao Battle City CEFET!!!\n\n[1] Jogar.\n[2] Debug.\n[3] Lista de jogadores.\n[4] Sair.\n\nEscolha uma opcao: ");
-		scanf("%d",&menu);
+		scanf("%d",&menuprincipal);
 		
-		switch(menu){
+		switch(menuprincipal){
 			case 1:
 				//Estrutura de controle do espaçamento.
-				espaco(matriz,VETORX,VETORY);
+				espaco();
 					
 				zeraMatriz(matriz,VETORX,VETORY);
 				geraLimite(matriz,VETORX,VETORY);
@@ -145,6 +154,8 @@ int main() {
 				tanqueAbrams(matriz,VETORX,VETORY);
 				tanqueCenturion(matriz,VETORX,VETORY);
 				
+				copiaTabuleiro(matriz,matrizAux,VETORX,VETORY);
+				
 				
 				//Estrutura da jogada.
 				do{
@@ -152,10 +163,10 @@ int main() {
 					imprimeTabuleiro(matriz,VETORX,VETORY);
 					
 					printf("[1] Movimentar o tanque.\n[2] Disparar.\n[3] Girar o tanque.\n[4] Sair.\n\nEscolha uma opcao: ");
-					scanf("%d",&jogada);
+					scanf("%d",&menujogada);
 					
 					//menu jogada.
-					switch(jogada){
+					switch(menujogada){
 						
 						//Movimentar tanque principal.
 						case 1:
@@ -173,17 +184,32 @@ int main() {
 							
 						//Sair.	
 						case 4:
+							espaco();
+							imprimeTabuleiro(matriz,VETORX,VETORY);
+							
+							printf("[1] Reiniciar Fase.\n[2] Novo Jogo.\nEscolha uma opcao: ");
+							scanf("%d",&menusair);
+							
+							if(menusair==1){
+								colaTabuleiro(matriz,matrizAux,VETORX,VETORY);
+							}
+							if(menusair==2){
+								menujogada = 5;
+								
+							}
+							espaco();
+							
 							break;
 					}
 				}
-				while(jogada != 4);
-				return 0;
+				while(menujogada != 5);
+				break;
 				
 				case 2 :
 					break;		
 		}
 	}
-	while(menu != 4);
+	while(menuprincipal != 4);
 	return 0;
 }
 
@@ -198,7 +224,7 @@ int main() {
 
 
 //Zera a Matriz (tipo==0).
-int zeraMatriz (geral matriz[VETORX][VETORY], int x, int y){
+void zeraMatriz (geral matriz[VETORX][VETORY], int x, int y){
 	int i, j;
 		
 	//Transforma toda a matriz em células vazias.
@@ -210,12 +236,12 @@ int zeraMatriz (geral matriz[VETORX][VETORY], int x, int y){
 			matriz[i][j].sprite = ' ';
 			} 	
 	}
-	return 0;
+	
 }
 
 
 //Gera a Fronteira do Tabuleiro (tipo==1).
-int geraLimite(geral matriz[VETORX][VETORY], int x, int y){
+void geraLimite(geral matriz[VETORX][VETORY], int x, int y){
 	int i,j;
 	
 	//Cria a fronteira de zeros do tabuleiro.
@@ -231,24 +257,23 @@ int geraLimite(geral matriz[VETORX][VETORY], int x, int y){
 		matriz[i][VETORY].tipo = 1;	
 		matriz[i][VETORY].sprite = '0';
 	}
-	return 0;
+	
 }
 
 
 //Gera Relíquia(tipo==2).
-int geraReliquia (geral matriz[VETORX][VETORY], int x, int y){
+void geraReliquia (geral matriz[VETORX][VETORY], int x, int y){
 	
 	//Gera a relíquia em célula fixa do tabuleiro.
 	matriz[13][7].tipo = 2;
 	matriz[13][7].vida = 1;
 	matriz[13][7].sprite = 197;
 	
-	return 0;
 }
 
 
 //Gera Blocos de Aço (tipo=3).
-int geraBloco(geral matriz[VETORX][VETORY], int x, int y){
+void geraBloco(geral matriz[VETORX][VETORY], int x, int y){
 	
 	//Gera os blocos de aço em células fixas do tabuleiro.
 	matriz[2][2].tipo = 3 ;
@@ -262,12 +287,11 @@ int geraBloco(geral matriz[VETORX][VETORY], int x, int y){
 	matriz[7][7].tipo = 3 ;
 	matriz[7][7].sprite = 219 ;
 	
-	return 0;
 }
 
 
 //Gera Tijolos Normais (tipo==4).
-int geraTijolos (geral matriz[VETORX][VETORY], int x, int y){
+void geraTijolos (geral matriz[VETORX][VETORY], int x, int y){
 	int i, j, var;
 	
 	srand(time(0));
@@ -304,12 +328,12 @@ int geraTijolos (geral matriz[VETORX][VETORY], int x, int y){
 				
 		} 	
 	}
-	return 0;
+	
 }
 
 
 //Gera Tanque do Jogador Principal (Osório) (tipo==5).
-int tanqueOsorio (geral matriz[VETORX][VETORY], int x, int y){
+void tanqueOsorio (geral matriz[VETORX][VETORY], int x, int y){
 	int i, j;
 	
 	srand(time(0));
@@ -326,12 +350,12 @@ int tanqueOsorio (geral matriz[VETORX][VETORY], int x, int y){
 		}
 	}
 	while(matriz[i][j].tipo != 5);
-	return 0;
+	
 }
 
 
 //Gera Tanque do Jogador Inimigo (M1 Abrams) (tipo==6).
-int tanqueAbrams (geral matriz[VETORX][VETORY], int x, int y){
+void tanqueAbrams (geral matriz[VETORX][VETORY], int x, int y){
 	int i, j;
 	
 	srand(time(0));
@@ -348,12 +372,12 @@ int tanqueAbrams (geral matriz[VETORX][VETORY], int x, int y){
 		}
 	}
 	while(matriz[i][j].tipo != 6);
-	return 0;
+	
 }
 
 
 //Gera Tanque do Jogador Inimigo Centurion (tipo==7).
-int tanqueCenturion (geral matriz[VETORX][VETORY], int x, int y){
+void tanqueCenturion (geral matriz[VETORX][VETORY], int x, int y){
 	int i, j;
 	
 	srand(time(0));
@@ -370,12 +394,12 @@ int tanqueCenturion (geral matriz[VETORX][VETORY], int x, int y){
 		}
 	}
 	while(matriz[i][j].tipo != 7);
-	return 0;
+	
 }
 
 
 //Imprime o Tabuleiro.
-int imprimeTabuleiro (geral matriz[VETORX][VETORY], int x, int y){
+void imprimeTabuleiro (geral matriz[VETORX][VETORY], int x, int y){
 	int i, j;
 	
 	//Imprime o tabuleiro através do sprite.
@@ -385,15 +409,50 @@ int imprimeTabuleiro (geral matriz[VETORX][VETORY], int x, int y){
 		}
 		printf("\n\n\n");
 	}
-	return 0;
+	
 }
 
 
 //Estrutura de controle do espaçamento.
-int espaco (geral matriz[VETORX][VETORY], int x, int y){
+void espaco (geral matriz[VETORX][VETORY], int x, int y){
 	
-	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
+}
+
+
+//Copia o tabuleiro.
+void copiaTabuleiro(geral matriz[VETORX][VETORY],geral matrizAux[VETORX][VETORY]){
+	int i;
+	int j;
+	
+	for(i=0;i<=VETORX;i++){
+		for(j=0;j<=VETORY;j++){
+			matrizAux[i][j].tipo = matriz[i][j].tipo;
+			matrizAux[i][j].vida = matriz[i][j].vida;
+			matrizAux[i][j].direcao = matriz[i][j].direcao;
+			matrizAux[i][j].sprite = matriz[i][j].sprite;
+			
+		}
+	}
+		
+}
+
+
+//Copia o tabuleiro auxiliar para o principal.
+void colaTabuleiro(geral matriz[VETORX][VETORY],geral matrizAux[VETORX][VETORY]){
+	int i;
+	int j;
+	
+	for(i=0;i<=VETORX;i++){
+		for(j=0;j<=VETORY;j++){
+			matriz[i][j].tipo = matrizAux[i][j].tipo;
+			matriz[i][j].vida = matrizAux[i][j].vida;
+			matriz[i][j].direcao = matrizAux[i][j].direcao;
+			matriz[i][j].sprite = matrizAux[i][j].sprite;
+		}
+	}
+	
 }
 
 
