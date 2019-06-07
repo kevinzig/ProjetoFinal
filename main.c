@@ -10,13 +10,19 @@
 #define VETORY 14
 
 
+//=========================================================================================================================================================================================================================
 
 
 
-//FUNÇÕES DE ESTRUTURA GERAL===================================================================================================================================================================================================
+
+
+//FUNÇÕES DE ESTRUTURA GERAL
 
 
 
+
+
+//=========================================================================================================================================================================================================================
 
 
 //Estrutura "geral".
@@ -45,13 +51,19 @@ typedef struct{
 }geral;
 
 
+//=========================================================================================================================================================================================================================
 
 
 
-//FUNÇÕES GERAIS============================================================================================================================================================================================================
+
+
+//FUNÇÕES GERAIS
 
 
 
+
+
+//=========================================================================================================================================================================================================================
 
 
 //Zera a Matriz (tipo==0) .
@@ -102,13 +114,19 @@ void copiaTabuleiro();
 void colaTabuleiro();
 
 
+//=========================================================================================================================================================================================================================
 
 
 
-//FUNÇÕES DE JOGADA=========================================================================================================================================================================================================
+
+
+//FUNÇÕES DE JOGADA
 
 
 
+
+
+//=========================================================================================================================================================================================================================
 
 
 //Transporta todas as informações do tanque principal (Osório) para outra célula.
@@ -119,13 +137,19 @@ int movimentoOsorio ();
 int giraOsorio ();
 
 
+//=========================================================================================================================================================================================================================
 
 
 
-//CÓDIGO PRINCIPAL==========================================================================================================================================================================================================
+
+
+//CÓDIGO PRINCIPAL
 
 
 
+
+
+//=========================================================================================================================================================================================================================
 
 
 //Função código fonte.
@@ -214,13 +238,19 @@ int main() {
 }
 
 
+//=========================================================================================================================================================================================================================
 
 
 
-//CÓDIGO DAS FUNÇÔES GERAIS==========================================================================================================================================================================================================
+
+
+//CÓDIGO DAS FUNÇÔES GERAIS
 
 
 
+
+
+//=========================================================================================================================================================================================================================
 
 
 //Zera a Matriz (tipo==0).
@@ -414,7 +444,7 @@ void imprimeTabuleiro (geral matriz[VETORX][VETORY], int x, int y){
 
 
 //Estrutura de controle do espaçamento.
-void espaco (geral matriz[VETORX][VETORY], int x, int y){
+void espaco (){
 	
 	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
@@ -456,13 +486,19 @@ void colaTabuleiro(geral matriz[VETORX][VETORY],geral matrizAux[VETORX][VETORY])
 }
 
 
+//=========================================================================================================================================================================================================================
 
 
 
-//CÓDIGO DAS FUNÇÕES DE JOGADA=========================================================================================================================================================================================================
+
+
+//CÓDIGO DAS FUNÇÕES DE JOGADA
 
 
 
+
+
+//=========================================================================================================================================================================================================================
 
 
 //Transporta todas as informações do tanque principal (Osório) para outra célula.
@@ -481,7 +517,8 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 
 	
 	//Estrutura de controle do espaçamento.
-	espaco(matriz,VETORX,VETORY);
+	espaco();
+	
 	imprimeTabuleiro(matriz,VETORX,VETORY);
 	
 	//Estrutura do menu de movimento.
@@ -504,14 +541,14 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx][posy].sprite = ' ';
 				
 				//Estrutura de controle do espaçamento.
-				espaco(matriz,VETORX,VETORY);
+				espaco();
 				
 				return 0;  
 			}		
 			else{
 				
 				//Estrutura de controle do espaçamento.
-				espaco(matriz,VETORX,VETORY);
+				espaco();
 				
 				printf("Obstaculo a frente.\n\n");
 				return 0;
@@ -532,14 +569,14 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx][posy].sprite = ' ';
 				
 				//Estrutura de controle do espaçamento.
-				espaco(matriz,VETORX,VETORY);
+				espaco();
 				
 				return 0; 
 			}
 			else{
 				
 				//Estrutura de controle do espaçamento.
-				espaco(matriz,VETORX,VETORY);
+				espaco();
 				
 				printf("Obstaculo a frente.\n\n");
 				return 0;
@@ -560,14 +597,14 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx][posy].sprite = ' ';
 				
 				//Estrutura de controle do espaçamento.
-				espaco(matriz,VETORX,VETORY);
+				espaco();
 				
 				return 0;  
 			}
 			else{
 				
 				//Estrutura de controle do espaçamento.
-				espaco(matriz,VETORX,VETORY);
+				espaco();
 				
 				printf("Obstaculo a frente.\n\n");
 				return 0;
@@ -588,14 +625,14 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx][posy].sprite = ' ';
 				
 				//Estrutura de controle do espaçamento.
-				espaco(matriz,VETORX,VETORY);
+				espaco();
 				
 				return 0;
 			}
 			else{
 				
 				//Estrutura de controle do espaçamento.
-				espaco(matriz,VETORX,VETORY);
+				espaco();
 				
 				printf("Obstaculo a frente.\n\n");
 				return 0;
@@ -606,7 +643,7 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 	else{
 		
 		//Estrutura de controle do espaçamento.
-		espaco(matriz,VETORX,VETORY);
+		espaco();
 		
 		if(matriz[posx][posy].direcao==1){
 			printf("Direcao incorreta!!! (Norte) \n\n");
@@ -633,7 +670,7 @@ int giraOsorio (geral matriz[VETORX][VETORY], int x, int y){
 	int i,j,vargira,posx,posy;
 	
 	//Estrutura de controle do espaçamento.
-	espaco(matriz,VETORX,VETORY);
+	espaco();
 	imprimeTabuleiro(matriz,VETORX,VETORY);
 	
 	printf("[1] Girar Norte.\n[2] Girar Sul.\n[3] Girar Leste.\n[4] Girar Oeste.\n Escolha uma acao: ");
@@ -654,7 +691,7 @@ int giraOsorio (geral matriz[VETORX][VETORY], int x, int y){
 		matriz[posx][posy].direcao = 1;
 		
 		//Estrutura de controle do espaçamento.
-		espaco(matriz,VETORX,VETORY);
+		espaco();
 				
 	}
 	
@@ -663,7 +700,7 @@ int giraOsorio (geral matriz[VETORX][VETORY], int x, int y){
 		matriz[posx][posy].direcao = 2;
 		
 		//Estrutura de controle do espaçamento.
-		espaco(matriz,VETORX,VETORY);
+		espaco();
 				
 	}
 	
@@ -672,7 +709,7 @@ int giraOsorio (geral matriz[VETORX][VETORY], int x, int y){
 		matriz[posx][posy].direcao = 3;
 		
 		//Estrutura de controle do espaçamento.
-		espaco(matriz,VETORX,VETORY);
+		espaco();
 				
 	}
 	
@@ -680,7 +717,7 @@ int giraOsorio (geral matriz[VETORX][VETORY], int x, int y){
 		
 		matriz[posx][posy].direcao = 4;
 		//Estrutura de controle do espaçamento.
-		espaco(matriz,VETORX,VETORY);
+		espaco();
 				
 	}
 	
