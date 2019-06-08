@@ -47,6 +47,7 @@ typedef struct{
 	//Tanque jogador Osório = 5.
 	//Tanque inimigo M1 Ambrans = 6.
 	//Tanque inimigo Centurion = 7.
+	//Tanque inimigo Osório = 8.
 	
 }geral;
 
