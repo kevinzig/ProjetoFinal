@@ -178,7 +178,7 @@ int main() {
 				tanqueAbrams(matriz,VETORX,VETORY);
 				tanqueCenturion(matriz,VETORX,VETORY);
 				
-				copiaTabuleiro(matriz,matrizAux,VETORX,VETORY);
+				copiaTabuleiro(matriz,matrizAux);
 				
 				
 				//Estrutura da jogada.
@@ -215,7 +215,7 @@ int main() {
 							scanf("%d",&menusair);
 							
 							if(menusair==1){
-								colaTabuleiro(matriz,matrizAux,VETORX,VETORY);
+								colaTabuleiro(matriz,matrizAux);
 							}
 							if(menusair==2){
 								menujogada = 5;
