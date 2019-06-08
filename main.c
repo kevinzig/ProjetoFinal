@@ -98,6 +98,10 @@ void tanqueAbrams ();
 void tanqueCenturion ();
 
 
+//Gera Tanque do Jogador Inimigo Osorio (tipo==8).
+void tanqueInimigoOsorio ();
+
+
 //Imprime o Tabuleiro.
 void imprimeTabuleiro ();
 
@@ -177,6 +181,7 @@ int main() {
 				tanqueOsorio(matriz,VETORX,VETORY);
 				tanqueAbrams(matriz,VETORX,VETORY);
 				tanqueCenturion(matriz,VETORX,VETORY);
+				tanqueInimigoOsorio(matriz,VETORX,VETORY);
 				
 				copiaTabuleiro(matriz,matrizAux);
 				
@@ -424,6 +429,28 @@ void tanqueCenturion (geral matriz[VETORX][VETORY], int x, int y){
 		}
 	}
 	while(matriz[i][j].tipo != 7);
+	
+}
+
+
+//Gera Tanque inimigo (Osório) (tipo==8).
+void tanqueInimigoOsorio (geral matriz[VETORX][VETORY], int x, int y){
+	int i, j;
+	
+	srand(time(0));
+
+	//Gera tanque inimigo (Osório) em uma célula aleatória do tabuleiro.
+	do{
+		i = 1 + (rand() % 13);
+		j = 1 + (rand() % 13);
+		if(matriz[i][j].tipo == 0){
+			matriz[i][j].tipo = 8;
+			matriz[i][j].vida = 1;
+			matriz[i][j].direcao = 1;
+			matriz[i][j].sprite = 'T';
+		}
+	}
+	while(matriz[i][j].tipo != 8);
 	
 }
 
