@@ -94,6 +94,8 @@ int imprimeTabuleiro ();
 int espaco ();
 
 
+//Elimina as estruturas do mapa.
+int destroi();
 
 
 
@@ -111,7 +113,8 @@ int movimentoOsorio ();
 int giraOsorio ();
 
 
-
+//Verifica se na direção selecionada para atirar há algum obstaculo(blocos, Inimigos, limites), no caso da existência de um bloco comum ou inimigo, o mesmo será atinjido e destruido.
+int atiraOsorio ();
 
 
 //CÓDIGO PRINCIPAL==========================================================================================================================================================================================================
@@ -164,6 +167,8 @@ int main() {
 							
 						//Dsparo do tanque.		
 						case 2:
+							atiraOsorio(matriz,VETORX,VETORY);
+							destroi(matriz,VETORX,VETORY); 
 							break;
 							
 						//Girar o tanque.	
@@ -625,6 +630,149 @@ int giraOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				
 	}
 	
+	return 0;
+}
+
+int atiraOsorio(geral matriz[VETORX][VETORY], int x, int y){
+	int i,j,atira,posx,posy,posxi,posyi;
+	
+	//Estrutura do menu de tiro.
+	printf("[1] Atira Norte.\n[2] Atira Sul.\n[3] Atira Leste.\n[4] Atira Oeste.\n Escolha uma acao: ");
+	scanf("%d",&atira);
+	
+	for(i=0;i<=VETORY;i++){
+		for(j=0;j<=VETORY;j++){
+			if(matriz[i][j].tipo==5){
+				posx = i;
+				posy = j;
+			}
+		}
+	}
+	
+	if(atira==matriz[posx][posy].direcao){
+		//Atira para o Norte
+		if(matriz[posx][posy].direcao==1){
+		posyi=posy;
+		while(matriz[posx][posyi].tipo=0){
+			posyi+=1;
+		}
+		posyi+=1;
+		if(matriz[posx][posyi].tipo==7){
+			matriz[posx][posyi].vida=0;
+		}
+		if(matriz[posx][posyi].tipo==6){
+			matriz[posx][posyi].vida=0;
+		}
+	    if(matriz[posx][posyi].tipo==4){
+			matriz[posx][posyi].vida=0;
+		}
+		if(matriz[posx][posyi].tipo==2){
+			matriz[posx][posyi].vida=0;
+		}
+		espaco(matriz,VETORX,VETORY);
+		return 0;
+	}
+	//Atira para o Sul
+		if(matriz[posx][posy].direcao==2){
+		posyi=posy;
+		while(matriz[posx][posyi].tipo=0){
+			posyi+=1;
+		}
+		posyi+=1;
+		if(matriz[posx][posyi].tipo==7){
+			matriz[posx][posyi].vida=0;
+		}
+		if(matriz[posx][posyi].tipo==6){
+			matriz[posx][posyi].vida=0;
+		}
+	    if(matriz[posx][posyi].tipo==4){
+			matriz[posx][posyi].vida=0;
+		}
+		if(matriz[posx][posyi].tipo==2){
+			matriz[posx][posyi].vida=0;
+		}
+		espaco(matriz,VETORX,VETORY);
+	    return 0;
+	}
+	//Atira para o Leste
+		if(matriz[posx][posy].direcao==3){
+		posxi=posx;
+		while(matriz[posxi][posy].tipo=0){
+			posxi+=1;
+		}
+		posxi+=1;
+		if(matriz[posx][posyi].tipo==7){
+			matriz[posx][posyi].vida=0;
+		}
+		if(matriz[posx][posyi].tipo==6){
+			matriz[posx][posyi].vida=0;
+		}
+	    if(matriz[posx][posyi].tipo==4){
+			matriz[posx][posyi].vida=0;
+		}
+		if(matriz[posx][posyi].tipo==2){
+			matriz[posx][posyi].vida=0;
+		}
+		espaco(matriz,VETORX,VETORY);
+		return 0;
+	}
+	//Atira para o Oeste
+		if(matriz[posx][posy].direcao==4){
+		posxi=posx;
+		while(matriz[posxi][posy].tipo=0){
+			posxi-=1;
+		}
+		posxi-=1;
+		if(matriz[posx][posyi].tipo==7){
+			matriz[posx][posyi].vida=0;
+		}
+		if(matriz[posx][posyi].tipo==6){
+			matriz[posx][posyi].vida=0;
+		}
+	    if(matriz[posx][posyi].tipo==4){
+			matriz[posx][posyi].vida=0;
+		}
+		if(matriz[posx][posyi].tipo==2){
+			matriz[posx][posyi].vida=0;
+		}
+		espaco(matriz,VETORX,VETORY);
+		return 0;
+	}
+	
+}
+	else{
+	//Estrutura de controle do espaçamento.
+		espaco(matriz,VETORX,VETORY);
+		
+		if(matriz[posx][posy].direcao==1){
+			printf("Direcao incorreta!!! (Norte) \n\n");
+		}
+		
+		if(matriz[posx][posy].direcao==2){
+			printf("Direcao incorreta!!! (Sul) \n\n");
+		}
+		
+		if(matriz[posx][posy].direcao==3){
+			printf("Direcao incorreta!!! (Leste) \n\n");
+		}
+		
+		if(matriz[posx][posy].direcao==4){
+			printf("Direcao incorreta!!! (Oeste) \n\n");
+		}
+		espaco(matriz,VETORX,VETORY);
+		return 0;
+	}
+	return 0;
+}
+
+int destroi(geral matriz[VETORX][VETORY], int x, int y){
+	int posx,posy;
+	
+	if(matriz[posx][posy].vida==0){
+		matriz[posx][posy].tipo=0;
+		matriz[posx][posy].sprite=' ';
+		return 0;
+	}
 	return 0;
 }
 
