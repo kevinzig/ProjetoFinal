@@ -139,11 +139,23 @@ void printaInfo();
 
 
 //Transporta todas as informações do tanque principal (Osório) para outra célula.
-int movimentoOsorio ();
+void movimentoOsorio ();
 
 
 //Muda a direção do tanque principal (Osório).
-int giraOsorio ();
+void giraOsorio ();
+
+
+//Jogada do tanque inimigo M1Abrams
+void jogadaInimigoAbrams();
+
+
+//Jogada do tanque inimigo M1Abrams
+void jogadaInimigoCenturion();
+
+
+//Jogada do tanque inimigo M1Abrams
+void jogadaInimigoOsorio();
 
 
 //=========================================================================================================================================================================================================================
@@ -525,6 +537,7 @@ void colaTabuleiro(geral matriz[VETORX][VETORY],geral matrizAux[VETORX][VETORY])
 }
 
 
+//Mosta as informações do tanque do jogador.
 void printaInfo(geral matriz[VETORX][VETORY]){
 	int i, j, posx, posy;
 	//Encontrar tanque Osório.
@@ -557,7 +570,7 @@ void printaInfo(geral matriz[VETORX][VETORY]){
 
 
 //Transporta todas as informações do tanque principal (Osório) para outra célula.
-int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
+void movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 	int i,j,vardirecao,posx,posy;
 	
 	//Encontrar tanque Osório.
@@ -596,8 +609,11 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx][posy].direcao = 0;
 				matriz[posx][posy].sprite = ' ';
 				
-				return 0;  
+				jogadaInimigoAbrams(matriz);
+				jogadaInimigoCenturion(matriz);
+				jogadaInimigoOsorio(matriz);
 			}
+			
 		}
 							
 		//Movimenta o tanque para o sul. 
@@ -613,8 +629,11 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx][posy].direcao = 0;
 				matriz[posx][posy].sprite = ' ';
 				
-				return 0; 
+				jogadaInimigoAbrams(matriz);
+				jogadaInimigoCenturion(matriz);
+				jogadaInimigoOsorio(matriz);
 			}
+			
 		}
 								
 		//Movimenta o tanque para o leste.
@@ -630,8 +649,11 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx][posy].direcao = 0;
 				matriz[posx][posy].sprite = ' ';
 				
-				return 0;  
+				jogadaInimigoAbrams(matriz);
+				jogadaInimigoCenturion(matriz);
+				jogadaInimigoOsorio(matriz);
 			}
+			
 		}
 								
 		//Movimenta o tanque para o oeste.
@@ -647,19 +669,20 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx][posy].direcao = 0;
 				matriz[posx][posy].sprite = ' ';
 				
-				
-				return 0;
+				jogadaInimigoAbrams(matriz);
+				jogadaInimigoCenturion(matriz);
+				jogadaInimigoOsorio(matriz);
 			}
+			
 		}
 			
 	}
 	
-	return 0;
 }
 
 
 //Muda a direção do tanque principal (Osório).
-int giraOsorio (geral matriz[VETORX][VETORY], int x, int y){
+void giraOsorio (geral matriz[VETORX][VETORY], int x, int y){
 	int i,j,vargira,posx,posy;
 	
 	imprimeTabuleiro(matriz,VETORX,VETORY);
@@ -701,7 +724,313 @@ int giraOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				
 	}
 	
-	return 0;
 }
 
- 
+
+//Movimenta aleatóriamente o tanque inimigo M1 Abrams.
+void jogadaInimigoAbrams(geral matriz[VETORX][VETORY]){
+	int i, j, posx, posy, alemov, var=0;
+	
+	
+	//Encontrar tanque M1 Abrams.
+	for(i=0;i<=VETORY;i++){
+		for(j=0;j<=VETORY;j++){
+			if(matriz[i][j].tipo==6){
+				posx = i;
+				posy = j;
+			}
+		}
+	}
+	
+	do{
+		
+		alemov = rand() %4;
+	
+		switch(alemov){
+		
+			//movimenta para o norte.
+			case 0:
+							
+				if(matriz[posx-1][posy].tipo==0){
+					matriz[posx-1][posy].tipo = matriz[posx][posy].tipo;
+					matriz[posx-1][posy].vida = matriz[posx][posy].vida;
+					matriz[posx-1][posy].direcao = 1;
+					matriz[posx-1][posy].sprite = matriz[posx][posy].sprite;
+					matriz[posx][posy].tipo = 0;
+					matriz[posx][posy].vida = 0;
+					matriz[posx][posy].direcao = 0;
+					matriz[posx][posy].sprite = ' ';
+					
+					var=1;
+				}
+				
+				break;
+			
+			//Movimenta para Sul.	
+			case 1:
+										
+				if(matriz[posx+1][posy].tipo==0){
+					matriz[posx+1][posy].tipo = matriz[posx][posy].tipo;
+					matriz[posx+1][posy].vida = matriz[posx][posy].vida;
+					matriz[posx+1][posy].direcao = 2;
+					matriz[posx+1][posy].sprite = matriz[posx][posy].sprite;
+					matriz[posx][posy].tipo = 0;
+					matriz[posx][posy].vida = 0;
+					matriz[posx][posy].direcao = 0;
+					matriz[posx][posy].sprite = ' ';
+					
+					var=1;
+				}
+		
+				break;
+			
+			//Movimenta para o Leste.
+			case 2:
+									
+				if(matriz[posx][posy+1].tipo==0){
+					matriz[posx][posy+1].tipo = matriz[posx][posy].tipo;
+					matriz[posx][posy+1].vida = matriz[posx][posy].vida;
+					matriz[posx][posy+1].direcao = 3;
+					matriz[posx][posy+1].sprite = matriz[posx][posy].sprite;
+					matriz[posx][posy].tipo = 0;
+					matriz[posx][posy].vida = 0;
+					matriz[posx][posy].direcao = 0;
+					matriz[posx][posy].sprite = ' ';
+					
+					var=1;
+				}
+				
+				break;
+			
+			//Movimenta para o Oeste.
+			case 3:
+										
+				if(matriz[posx][posy-1].tipo==0){	
+					matriz[posx][posy-1].tipo = matriz[posx][posy].tipo;
+					matriz[posx][posy-1].vida = matriz[posx][posy].vida;
+					matriz[posx][posy-1].direcao = 4;
+					matriz[posx][posy-1].sprite = matriz[posx][posy].sprite;
+					matriz[posx][posy].tipo = 0;
+					matriz[posx][posy].vida = 0;
+					matriz[posx][posy].direcao = 0;
+					matriz[posx][posy].sprite = ' ';
+					
+					var=1;
+				}
+			
+				break;
+		}
+				
+	}
+	while(var!=1);
+	
+}
+
+
+//Movimenta aleatóriamente o tanque inimigo Centurion.
+void jogadaInimigoCenturion(geral matriz[VETORX][VETORY]){
+	int i, j, posx, posy, alemov, var=0;
+	
+	
+	//Encontrar tanque Centurion.
+	for(i=0;i<=VETORY;i++){
+		for(j=0;j<=VETORY;j++){
+			if(matriz[i][j].tipo==7){
+				posx = i;
+				posy = j;
+			}
+		}
+	}
+	
+	do{
+		
+		alemov = rand() %4;
+	
+		switch(alemov){
+		
+			//movimenta para o norte.
+			case 0:
+							
+				if(matriz[posx-1][posy].tipo==0){
+					matriz[posx-1][posy].tipo = matriz[posx][posy].tipo;
+					matriz[posx-1][posy].vida = matriz[posx][posy].vida;
+					matriz[posx-1][posy].direcao = 1;
+					matriz[posx-1][posy].sprite = matriz[posx][posy].sprite;
+					matriz[posx][posy].tipo = 0;
+					matriz[posx][posy].vida = 0;
+					matriz[posx][posy].direcao = 0;
+					matriz[posx][posy].sprite = ' ';
+					
+					var=1;
+				}
+				
+				break;
+			
+			//Movimenta para Sul.	
+			case 1:
+										
+				if(matriz[posx+1][posy].tipo==0){
+					matriz[posx+1][posy].tipo = matriz[posx][posy].tipo;
+					matriz[posx+1][posy].vida = matriz[posx][posy].vida;
+					matriz[posx+1][posy].direcao = 2;
+					matriz[posx+1][posy].sprite = matriz[posx][posy].sprite;
+					matriz[posx][posy].tipo = 0;
+					matriz[posx][posy].vida = 0;
+					matriz[posx][posy].direcao = 0;
+					matriz[posx][posy].sprite = ' ';
+					
+					var=1;
+				}
+		
+				break;
+			
+			//Movimenta para o Leste.
+			case 2:
+									
+				if(matriz[posx][posy+1].tipo==0){
+					matriz[posx][posy+1].tipo = matriz[posx][posy].tipo;
+					matriz[posx][posy+1].vida = matriz[posx][posy].vida;
+					matriz[posx][posy+1].direcao = 3;
+					matriz[posx][posy+1].sprite = matriz[posx][posy].sprite;
+					matriz[posx][posy].tipo = 0;
+					matriz[posx][posy].vida = 0;
+					matriz[posx][posy].direcao = 0;
+					matriz[posx][posy].sprite = ' ';
+					
+					var=1;
+				}
+				
+				break;
+			
+			//Movimenta para o Oeste.
+			case 3:
+										
+				if(matriz[posx][posy-1].tipo==0){	
+					matriz[posx][posy-1].tipo = matriz[posx][posy].tipo;
+					matriz[posx][posy-1].vida = matriz[posx][posy].vida;
+					matriz[posx][posy-1].direcao = 4;
+					matriz[posx][posy-1].sprite = matriz[posx][posy].sprite;
+					matriz[posx][posy].tipo = 0;
+					matriz[posx][posy].vida = 0;
+					matriz[posx][posy].direcao = 0;
+					matriz[posx][posy].sprite = ' ';
+					
+					var=1;
+				}
+			
+				break;
+		}
+				
+	}
+	while(var!=1);
+	
+}
+
+
+//Movimenta aleatóriamente o tanque inimigo Osório.
+void jogadaInimigoOsorio(geral matriz[VETORX][VETORY]){
+	int i, j, posx, posy, alemov, var=0;
+	
+	
+	//Encontrar tanque Osório.
+	for(i=0;i<=VETORY;i++){
+		for(j=0;j<=VETORY;j++){
+			if(matriz[i][j].tipo==8){
+				posx = i;
+				posy = j;
+			}
+		}
+	}
+	
+	do{
+		
+		alemov = rand() %4;
+	
+		switch(alemov){
+		
+			//movimenta para o norte.
+			case 0:
+							
+				if(matriz[posx-1][posy].tipo==0){
+					matriz[posx-1][posy].tipo = matriz[posx][posy].tipo;
+					matriz[posx-1][posy].vida = matriz[posx][posy].vida;
+					matriz[posx-1][posy].direcao = 1;
+					matriz[posx-1][posy].sprite = matriz[posx][posy].sprite;
+					matriz[posx][posy].tipo = 0;
+					matriz[posx][posy].vida = 0;
+					matriz[posx][posy].direcao = 0;
+					matriz[posx][posy].sprite = ' ';
+					
+					var=1;
+				}
+				
+				break;
+			
+			//Movimenta para Sul.	
+			case 1:
+										
+				if(matriz[posx+1][posy].tipo==0){
+					matriz[posx+1][posy].tipo = matriz[posx][posy].tipo;
+					matriz[posx+1][posy].vida = matriz[posx][posy].vida;
+					matriz[posx+1][posy].direcao = 2;
+					matriz[posx+1][posy].sprite = matriz[posx][posy].sprite;
+					matriz[posx][posy].tipo = 0;
+					matriz[posx][posy].vida = 0;
+					matriz[posx][posy].direcao = 0;
+					matriz[posx][posy].sprite = ' ';
+					
+					var=1;
+				}
+		
+				break;
+			
+			//Movimenta para o Leste.
+			case 2:
+									
+				if(matriz[posx][posy+1].tipo==0){
+					matriz[posx][posy+1].tipo = matriz[posx][posy].tipo;
+					matriz[posx][posy+1].vida = matriz[posx][posy].vida;
+					matriz[posx][posy+1].direcao = 3;
+					matriz[posx][posy+1].sprite = matriz[posx][posy].sprite;
+					matriz[posx][posy].tipo = 0;
+					matriz[posx][posy].vida = 0;
+					matriz[posx][posy].direcao = 0;
+					matriz[posx][posy].sprite = ' ';
+					
+					var=1;
+				}
+				
+				break;
+			
+			//Movimenta para o Oeste.
+			case 3:
+										
+				if(matriz[posx][posy-1].tipo==0){	
+					matriz[posx][posy-1].tipo = matriz[posx][posy].tipo;
+					matriz[posx][posy-1].vida = matriz[posx][posy].vida;
+					matriz[posx][posy-1].direcao = 4;
+					matriz[posx][posy-1].sprite = matriz[posx][posy].sprite;
+					matriz[posx][posy].tipo = 0;
+					matriz[posx][posy].vida = 0;
+					matriz[posx][posy].direcao = 0;
+					matriz[posx][posy].sprite = ' ';
+					
+					var=1;
+				}
+			
+				break;
+		}
+				
+	}
+	while(var!=1);
+	
+}
+							 
+
+
+
+
+
+
+
+		
