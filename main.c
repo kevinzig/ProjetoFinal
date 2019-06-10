@@ -119,6 +119,10 @@ void copiaTabuleiro();
 void colaTabuleiro();
 
 
+//Mostra as informações do jogador na tela.
+void printaInfo();
+
+
 //=========================================================================================================================================================================================================================
 
 
@@ -165,15 +169,13 @@ int main() {
 	int menuprincipal,menujogada,menusair,vardirecao,posx,posy,i,j;
 	
 	do{
-		
+		system("cls");
 		printf("Bem vindo ao Battle City CEFET!!!\n\n[1] Jogar.\n[2] Debug.\n[3] Lista de jogadores.\n[4] Sair.\n\nEscolha uma opcao: ");
 		scanf("%d",&menuprincipal);
 		
 		switch(menuprincipal){
 			case 1:
-				//Estrutura de controle do espaçamento.
-				espaco();
-					
+
 				zeraMatriz(matriz,VETORX,VETORY);
 				geraLimite(matriz,VETORX,VETORY);
 				geraReliquia(matriz,VETORX,VETORY);
@@ -190,6 +192,7 @@ int main() {
 				//Estrutura da jogada.
 				do{
 					
+					espaco();
 					imprimeTabuleiro(matriz,VETORX,VETORY);
 					
 					printf("[1] Movimentar o tanque.\n[2] Disparar.\n[3] Girar o tanque.\n[4] Sair.\n\nEscolha uma opcao: ");
@@ -200,6 +203,8 @@ int main() {
 						
 						//Movimentar tanque principal.
 						case 1:
+							
+							espaco();
 							movimentoOsorio(matriz,VETORX,VETORY);
 							break;
 							
@@ -209,11 +214,14 @@ int main() {
 							
 						//Girar o tanque.	
 						case 3:
+							
+							espaco();
 							giraOsorio(matriz,VETORX,VETORY);
 							break;
 							
 						//Sair.	
 						case 4:
+							
 							espaco();
 							imprimeTabuleiro(matriz,VETORX,VETORY);
 							
@@ -380,7 +388,7 @@ void tanqueOsorio (geral matriz[VETORX][VETORY], int x, int y){
 		j = 1 + (rand() % 13);
 		if(matriz[i][j].tipo == 0){
 			matriz[i][j].tipo = 5;
-			matriz[i][j].vida = 1;
+			matriz[i][j].vida = 4;
 			matriz[i][j].direcao = 1;
 			matriz[i][j].sprite = 'O';
 		}
@@ -460,6 +468,8 @@ void tanqueInimigoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 void imprimeTabuleiro (geral matriz[VETORX][VETORY], int x, int y){
 	int i, j;
 	
+	printaInfo();
+	
 	//Imprime o tabuleiro através do sprite.
 	for(i=0;i<=VETORX;i++){
 		for(j=0;j<=VETORY;j++){
@@ -474,7 +484,8 @@ void imprimeTabuleiro (geral matriz[VETORX][VETORY], int x, int y){
 //Estrutura de controle do espaçamento.
 void espaco (){
 	
-	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+	system("cls");
+	printf("\n\n");
 
 }
 
@@ -514,6 +525,22 @@ void colaTabuleiro(geral matriz[VETORX][VETORY],geral matrizAux[VETORX][VETORY])
 }
 
 
+void printaInfo(geral matriz[VETORX][VETORY]){
+	int i, j, posx, posy;
+	//Encontrar tanque Osório.
+	for(i=0;i<=VETORY;i++){
+		for(j=0;j<=VETORY;j++){
+			if(matriz[i][j].tipo==5){
+				posx = i;
+				posy = j;
+			}
+		}
+	}
+	
+	printf("  VIDAS: %d \t\tTANQUES DESTRUIDOS: \t\tPONTOS: \n\n",matriz[posx][posy].vida);
+}
+
+
 //=========================================================================================================================================================================================================================
 
 
@@ -545,12 +572,13 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 
 	
 	//Estrutura de controle do espaçamento.
+	printf("\n\n");
 	espaco();
 	
 	imprimeTabuleiro(matriz,VETORX,VETORY);
 	
 	//Estrutura do menu de movimento.
-	printf("[1] Movimentar Norte.\n[2] Movimentar Sul.\n[3] Movimentar Leste.\n[4] Movimentar Oeste.\n Escolha uma ação: ");
+	printf("[1] Movimentar Norte.\n[2] Movimentar Sul.\n[3] Movimentar Leste.\n[4] Movimentar Oeste.\n\nEscolha uma opcao: ");
 	scanf("%d",&vardirecao);
 	
 	if(vardirecao==matriz[posx][posy].direcao){	
@@ -568,18 +596,7 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx][posy].direcao = 0;
 				matriz[posx][posy].sprite = ' ';
 				
-				//Estrutura de controle do espaçamento.
-				espaco();
-				
 				return 0;  
-			}		
-			else{
-				
-				//Estrutura de controle do espaçamento.
-				espaco();
-				
-				printf("Obstaculo a frente.\n\n");
-				return 0;
 			}
 		}
 							
@@ -596,18 +613,7 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx][posy].direcao = 0;
 				matriz[posx][posy].sprite = ' ';
 				
-				//Estrutura de controle do espaçamento.
-				espaco();
-				
 				return 0; 
-			}
-			else{
-				
-				//Estrutura de controle do espaçamento.
-				espaco();
-				
-				printf("Obstaculo a frente.\n\n");
-				return 0;
 			}
 		}
 								
@@ -624,18 +630,7 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx][posy].direcao = 0;
 				matriz[posx][posy].sprite = ' ';
 				
-				//Estrutura de controle do espaçamento.
-				espaco();
-				
 				return 0;  
-			}
-			else{
-				
-				//Estrutura de controle do espaçamento.
-				espaco();
-				
-				printf("Obstaculo a frente.\n\n");
-				return 0;
 			}
 		}
 								
@@ -652,44 +647,14 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx][posy].direcao = 0;
 				matriz[posx][posy].sprite = ' ';
 				
-				//Estrutura de controle do espaçamento.
-				espaco();
 				
-				return 0;
-			}
-			else{
-				
-				//Estrutura de controle do espaçamento.
-				espaco();
-				
-				printf("Obstaculo a frente.\n\n");
 				return 0;
 			}
 		}
 			
 	}
-	else{
-		
-		//Estrutura de controle do espaçamento.
-		espaco();
-		
-		if(matriz[posx][posy].direcao==1){
-			printf("Direcao incorreta!!! (Norte) \n\n");
-		}
-		
-		if(matriz[posx][posy].direcao==2){
-			printf("Direcao incorreta!!! (Sul) \n\n");
-		}
-		
-		if(matriz[posx][posy].direcao==3){
-			printf("Direcao incorreta!!! (Leste) \n\n");
-		}
-		
-		if(matriz[posx][posy].direcao==4){
-			printf("Direcao incorreta!!! (Oeste) \n\n");
-		}
-	}
-		return 0;
+	
+	return 0;
 }
 
 
@@ -697,11 +662,9 @@ int movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 int giraOsorio (geral matriz[VETORX][VETORY], int x, int y){
 	int i,j,vargira,posx,posy;
 	
-	//Estrutura de controle do espaçamento.
-	espaco();
 	imprimeTabuleiro(matriz,VETORX,VETORY);
 	
-	printf("[1] Girar Norte.\n[2] Girar Sul.\n[3] Girar Leste.\n[4] Girar Oeste.\n Escolha uma acao: ");
+	printf("[1] Girar Norte.\n[2] Girar Sul.\n[3] Girar Leste.\n[4] Girar Oeste.\nEscolha uma opcao: ");
 	scanf("%d",&vargira);
 	
 	//Encontrar tanque Osório e muda a direcao
@@ -717,39 +680,28 @@ int giraOsorio (geral matriz[VETORX][VETORY], int x, int y){
 	if(vargira==1){
 		
 		matriz[posx][posy].direcao = 1;
-		
-		//Estrutura de controle do espaçamento.
-		espaco();
 				
 	}
 	
 	if(vargira==2){
 		
 		matriz[posx][posy].direcao = 2;
-		
-		//Estrutura de controle do espaçamento.
-		espaco();
 				
 	}
 	
 	if(vargira==3){
 		
 		matriz[posx][posy].direcao = 3;
-		
-		//Estrutura de controle do espaçamento.
-		espaco();
 				
 	}
 	
 	if(vargira==4){
 		
 		matriz[posx][posy].direcao = 4;
-		//Estrutura de controle do espaçamento.
-		espaco();
 				
 	}
 	
 	return 0;
 }
 
-
+ 
