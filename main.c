@@ -29,7 +29,9 @@
 typedef struct{
 	int tipo;
 	int vida; 
-	int direcao;     
+	int direcao;
+	int contPonto;
+	int contTanque; 
 	char sprite;
 	
 	//DIREÇÃO
@@ -123,6 +125,10 @@ void colaTabuleiro();
 void printaInfo();
 
 
+//Zera a célula da matriz.
+void zeraCelula();
+
+
 //=========================================================================================================================================================================================================================
 
 
@@ -144,6 +150,10 @@ void movimentoOsorio ();
 
 //Muda a direção do tanque principal (Osório).
 void giraOsorio ();
+
+
+//Sistema de tiro do tanque principal (Osório).
+void atiraOsorio();
 
 
 //Jogada do tanque inimigo M1Abrams
@@ -188,15 +198,15 @@ int main() {
 		switch(menuprincipal){
 			case 1:
 
-				zeraMatriz(matriz,VETORX,VETORY);
-				geraLimite(matriz,VETORX,VETORY);
-				geraReliquia(matriz,VETORX,VETORY);
-				geraBloco(matriz,VETORX,VETORY);
-				geraTijolos(matriz,VETORX,VETORY);
-				tanqueOsorio(matriz,VETORX,VETORY);
-				tanqueAbrams(matriz,VETORX,VETORY);
-				tanqueCenturion(matriz,VETORX,VETORY);
-				tanqueInimigoOsorio(matriz,VETORX,VETORY);
+				zeraMatriz(matriz);
+				geraLimite(matriz);
+				geraReliquia(matriz);
+				geraBloco(matriz);
+				geraTijolos(matriz);
+				tanqueOsorio(matriz);
+				tanqueAbrams(matriz);
+				tanqueCenturion(matriz);
+				tanqueInimigoOsorio(matriz);
 				
 				copiaTabuleiro(matriz,matrizAux);
 				
@@ -205,7 +215,7 @@ int main() {
 				do{
 					
 					espaco();
-					imprimeTabuleiro(matriz,VETORX,VETORY);
+					imprimeTabuleiro(matriz);
 					
 					printf("[1] Movimentar o tanque.\n[2] Disparar.\n[3] Girar o tanque.\n[4] Sair.\n\nEscolha uma opcao: ");
 					scanf("%d",&menujogada);
@@ -217,25 +227,26 @@ int main() {
 						case 1:
 							
 							espaco();
-							movimentoOsorio(matriz,VETORX,VETORY);
+							movimentoOsorio(matriz);
 							break;
 							
 						//Dsparo do tanque.		
 						case 2:
+							atiraOsorio(matriz);
 							break;
 							
 						//Girar o tanque.	
 						case 3:
 							
 							espaco();
-							giraOsorio(matriz,VETORX,VETORY);
+							giraOsorio(matriz);
 							break;
 							
 						//Sair.	
 						case 4:
 							
 							espaco();
-							imprimeTabuleiro(matriz,VETORX,VETORY);
+							imprimeTabuleiro(matriz);
 							
 							printf("[1] Reiniciar Fase.\n[2] Novo Jogo.\nEscolha uma opcao: ");
 							scanf("%d",&menusair);
@@ -280,7 +291,7 @@ int main() {
 
 
 //Zera a Matriz (tipo==0).
-void zeraMatriz (geral matriz[VETORX][VETORY], int x, int y){
+void zeraMatriz (geral matriz[VETORX][VETORY]){
 	int i, j;
 		
 	//Transforma toda a matriz em células vazias.
@@ -289,6 +300,8 @@ void zeraMatriz (geral matriz[VETORX][VETORY], int x, int y){
 			matriz[i][j].tipo = 0;
 			matriz[i][j].vida = 0;
 			matriz[i][j].direcao = 0;
+			matriz[i][j].contPonto = 0;
+			matriz[i][j].contTanque = 0;
 			matriz[i][j].sprite = ' ';
 			} 	
 	}
@@ -297,7 +310,7 @@ void zeraMatriz (geral matriz[VETORX][VETORY], int x, int y){
 
 
 //Gera a Fronteira do Tabuleiro (tipo==1).
-void geraLimite(geral matriz[VETORX][VETORY], int x, int y){
+void geraLimite(geral matriz[VETORX][VETORY]){
 	int i,j;
 	
 	//Cria a fronteira de zeros do tabuleiro.
@@ -318,7 +331,7 @@ void geraLimite(geral matriz[VETORX][VETORY], int x, int y){
 
 
 //Gera Relíquia(tipo==2).
-void geraReliquia (geral matriz[VETORX][VETORY], int x, int y){
+void geraReliquia (geral matriz[VETORX][VETORY]){
 	
 	//Gera a relíquia em célula fixa do tabuleiro.
 	matriz[13][7].tipo = 2;
@@ -329,7 +342,7 @@ void geraReliquia (geral matriz[VETORX][VETORY], int x, int y){
 
 
 //Gera Blocos de Aço (tipo=3).
-void geraBloco(geral matriz[VETORX][VETORY], int x, int y){
+void geraBloco(geral matriz[VETORX][VETORY]){
 	
 	//Gera os blocos de aço em células fixas do tabuleiro.
 	matriz[2][2].tipo = 3 ;
@@ -347,7 +360,7 @@ void geraBloco(geral matriz[VETORX][VETORY], int x, int y){
 
 
 //Gera Tijolos Normais (tipo==4).
-void geraTijolos (geral matriz[VETORX][VETORY], int x, int y){
+void geraTijolos (geral matriz[VETORX][VETORY]){
 	int i, j, var;
 	
 	srand(time(0));
@@ -389,7 +402,7 @@ void geraTijolos (geral matriz[VETORX][VETORY], int x, int y){
 
 
 //Gera Tanque do Jogador Principal (Osório) (tipo==5).
-void tanqueOsorio (geral matriz[VETORX][VETORY], int x, int y){
+void tanqueOsorio (geral matriz[VETORX][VETORY]){
 	int i, j;
 	
 	srand(time(0));
@@ -411,7 +424,7 @@ void tanqueOsorio (geral matriz[VETORX][VETORY], int x, int y){
 
 
 //Gera Tanque do Jogador Inimigo (M1 Abrams) (tipo==6).
-void tanqueAbrams (geral matriz[VETORX][VETORY], int x, int y){
+void tanqueAbrams (geral matriz[VETORX][VETORY]){
 	int i, j;
 	
 	srand(time(0));
@@ -433,7 +446,7 @@ void tanqueAbrams (geral matriz[VETORX][VETORY], int x, int y){
 
 
 //Gera Tanque do Jogador Inimigo Centurion (tipo==7).
-void tanqueCenturion (geral matriz[VETORX][VETORY], int x, int y){
+void tanqueCenturion (geral matriz[VETORX][VETORY]){
 	int i, j;
 	
 	srand(time(0));
@@ -455,7 +468,7 @@ void tanqueCenturion (geral matriz[VETORX][VETORY], int x, int y){
 
 
 //Gera Tanque inimigo (Osório) (tipo==8).
-void tanqueInimigoOsorio (geral matriz[VETORX][VETORY], int x, int y){
+void tanqueInimigoOsorio (geral matriz[VETORX][VETORY]){
 	int i, j;
 	
 	srand(time(0));
@@ -477,7 +490,7 @@ void tanqueInimigoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 
 
 //Imprime o Tabuleiro.
-void imprimeTabuleiro (geral matriz[VETORX][VETORY], int x, int y){
+void imprimeTabuleiro (geral matriz[VETORX][VETORY]){
 	int i, j;
 	
 	printaInfo();
@@ -550,7 +563,18 @@ void printaInfo(geral matriz[VETORX][VETORY]){
 		}
 	}
 	
-	printf("  VIDAS: %d \t\tTANQUES DESTRUIDOS: \t\tPONTOS: \n\n",matriz[posx][posy].vida);
+	printf("  VIDAS: %d \t\tTANQUES DESTRUIDOS: %d \t\tPONTOS: %d \n\n",matriz[posx][posy].vida, matriz[posx][posy].contTanque, matriz[posx][posy].contPonto);
+}
+
+
+//Zera a célula da matriz.
+void zeraCelula(geral matriz[VETORX][VETORY], int x, int y){
+	
+	matriz[x][y].tipo = 0;
+	matriz[x][y].vida = 0;
+	matriz[x][y].direcao = 0;
+	matriz[x][y].sprite = ' ';
+	
 }
 
 
@@ -570,7 +594,7 @@ void printaInfo(geral matriz[VETORX][VETORY]){
 
 
 //Transporta todas as informações do tanque principal (Osório) para outra célula.
-void movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
+void movimentoOsorio (geral matriz[VETORX][VETORY]){
 	int i,j,vardirecao,posx,posy;
 	
 	//Encontrar tanque Osório.
@@ -588,7 +612,7 @@ void movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 	printf("\n\n");
 	espaco();
 	
-	imprimeTabuleiro(matriz,VETORX,VETORY);
+	imprimeTabuleiro(matriz);
 	
 	//Estrutura do menu de movimento.
 	printf("[1] Movimentar Norte.\n[2] Movimentar Sul.\n[3] Movimentar Leste.\n[4] Movimentar Oeste.\n\nEscolha uma opcao: ");
@@ -603,15 +627,19 @@ void movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx-1][posy].tipo = matriz[posx][posy].tipo;
 				matriz[posx-1][posy].vida = matriz[posx][posy].vida;
 				matriz[posx-1][posy].direcao = matriz[posx][posy].direcao;
+				matriz[posx-1][posy].contPonto = matriz[posx][posy].contPonto;
+				matriz[posx-1][posy].contTanque = matriz[posx][posy].contTanque;
 				matriz[posx-1][posy].sprite = matriz[posx][posy].sprite;
 				matriz[posx][posy].tipo = 0;
 				matriz[posx][posy].vida = 0;
 				matriz[posx][posy].direcao = 0;
+				matriz[posx][posy].contPonto = 0;
+				matriz[posx][posy].contTanque = 0;
 				matriz[posx][posy].sprite = ' ';
 				
-				jogadaInimigoAbrams(matriz);
-				jogadaInimigoCenturion(matriz);
-				jogadaInimigoOsorio(matriz);
+			//	jogadaInimigoAbrams(matriz);
+			//	jogadaInimigoCenturion(matriz);
+			//	jogadaInimigoOsorio(matriz);
 			}
 			
 		}
@@ -623,15 +651,19 @@ void movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx+1][posy].tipo = matriz[posx][posy].tipo;
 				matriz[posx+1][posy].vida = matriz[posx][posy].vida;
 				matriz[posx+1][posy].direcao = matriz[posx][posy].direcao;
+				matriz[posx+1][posy].contPonto = matriz[posx][posy].contPonto;
+				matriz[posx+1][posy].contTanque = matriz[posx][posy].contTanque;
 				matriz[posx+1][posy].sprite = matriz[posx][posy].sprite;
 				matriz[posx][posy].tipo = 0;
 				matriz[posx][posy].vida = 0;
 				matriz[posx][posy].direcao = 0;
+				matriz[posx][posy].contPonto = 0;
+				matriz[posx][posy].contTanque = 0;
 				matriz[posx][posy].sprite = ' ';
 				
-				jogadaInimigoAbrams(matriz);
-				jogadaInimigoCenturion(matriz);
-				jogadaInimigoOsorio(matriz);
+			//	jogadaInimigoAbrams(matriz);
+			//	jogadaInimigoCenturion(matriz);
+			//	jogadaInimigoOsorio(matriz);
 			}
 			
 		}
@@ -643,15 +675,19 @@ void movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx][posy+1].tipo = matriz[posx][posy].tipo;
 				matriz[posx][posy+1].vida = matriz[posx][posy].vida;
 				matriz[posx][posy+1].direcao = matriz[posx][posy].direcao;
+				matriz[posx][posy+1].contPonto = matriz[posx][posy].contPonto;
+				matriz[posx][posy+1].contTanque = matriz[posx][posy].contTanque;
 				matriz[posx][posy+1].sprite = matriz[posx][posy].sprite;
 				matriz[posx][posy].tipo = 0;
 				matriz[posx][posy].vida = 0;
 				matriz[posx][posy].direcao = 0;
+				matriz[posx][posy].contPonto = 0;
+				matriz[posx][posy].contTanque = 0;
 				matriz[posx][posy].sprite = ' ';
 				
-				jogadaInimigoAbrams(matriz);
-				jogadaInimigoCenturion(matriz);
-				jogadaInimigoOsorio(matriz);
+			//	jogadaInimigoAbrams(matriz);
+			//	jogadaInimigoCenturion(matriz);
+			//	jogadaInimigoOsorio(matriz);
 			}
 			
 		}
@@ -663,15 +699,19 @@ void movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				matriz[posx][posy-1].tipo = matriz[posx][posy].tipo;
 				matriz[posx][posy-1].vida = matriz[posx][posy].vida;
 				matriz[posx][posy-1].direcao = matriz[posx][posy].direcao;
+				matriz[posx][posy-1].contPonto = matriz[posx][posy].contPonto;
+				matriz[posx][posy-1].contTanque = matriz[posx][posy].contTanque;
 				matriz[posx][posy-1].sprite = matriz[posx][posy].sprite;
 				matriz[posx][posy].tipo = 0;
 				matriz[posx][posy].vida = 0;
 				matriz[posx][posy].direcao = 0;
+				matriz[posx][posy].contPonto = 0;
+				matriz[posx][posy].contTanque = 0;
 				matriz[posx][posy].sprite = ' ';
 				
-				jogadaInimigoAbrams(matriz);
-				jogadaInimigoCenturion(matriz);
-				jogadaInimigoOsorio(matriz);
+			//	jogadaInimigoAbrams(matriz);
+			//	jogadaInimigoCenturion(matriz);
+			//	jogadaInimigoOsorio(matriz);
 			}
 			
 		}
@@ -682,10 +722,10 @@ void movimentoOsorio (geral matriz[VETORX][VETORY], int x, int y){
 
 
 //Muda a direção do tanque principal (Osório).
-void giraOsorio (geral matriz[VETORX][VETORY], int x, int y){
+void giraOsorio (geral matriz[VETORX][VETORY]){
 	int i,j,vargira,posx,posy;
 	
-	imprimeTabuleiro(matriz,VETORX,VETORY);
+	imprimeTabuleiro(matriz);
 	
 	printf("[1] Girar Norte.\n[2] Girar Sul.\n[3] Girar Leste.\n[4] Girar Oeste.\nEscolha uma opcao: ");
 	scanf("%d",&vargira);
@@ -724,6 +764,144 @@ void giraOsorio (geral matriz[VETORX][VETORY], int x, int y){
 				
 	}
 	
+}
+
+
+//Sistema de tiro do tanque principal (Osório).
+void atiraOsorio(geral matriz[VETORX][VETORY]){
+	int i,j,atira,posx,posy,cont=0;
+
+
+	for(i=0;i<=VETORY;i++){
+		for(j=0;j<=VETORX;j++){
+			if(matriz[i][j].tipo==5){
+				posx = i;
+				posy = j;
+			}
+		}
+	}
+	
+	
+	//Atira para o Norte
+	if(matriz[posx][posy].direcao==1){
+	    for(i=(posx-1);i>0;i--){
+			if(matriz[i][posy].tipo == 4){
+		    	zeraCelula(matriz,i,posy);
+		    	break;
+		    }
+		    
+		    if(matriz[i][posy].tipo == 6){
+		    	zeraCelula(matriz,i,posy);
+		    	matriz[posx][posy].contPonto += 10;
+		    	matriz[posx][posy].contTanque += 1;
+		    	break;
+			}
+			
+			if(matriz[i][posy].tipo == 7){
+		    	zeraCelula(matriz,i,posy);
+		    	matriz[posx][posy].contPonto += 10;
+		    	matriz[posx][posy].contTanque += 1;
+		    	break;
+		    }
+		    
+		    if(matriz[i][posy].tipo == 8){
+		    	zeraCelula(matriz,i,posy);
+		    	matriz[posx][posy].contPonto += 10;
+		    	matriz[posx][posy].contTanque += 1;
+		    	break;
+			}
+        }
+	}
+	//Atira para o Sul
+	if(matriz[posx][posy].direcao==2){
+		for(i=(posx+1);i<VETORX;i++){
+			if(matriz[i][posy].tipo == 4){
+			    zeraCelula(matriz,i,posy);
+			    break;	
+			}
+			
+			 if(matriz[i][posy].tipo == 6){
+		    	zeraCelula(matriz,i,posy);
+		    	matriz[posx][posy].contPonto += 10;
+		    	matriz[posx][posy].contTanque += 1;
+		    	break;
+			}
+			
+			if(matriz[i][posy].tipo == 7){
+		    	zeraCelula(matriz,i,posy);
+		    	matriz[posx][posy].contPonto += 10;
+		    	matriz[posx][posy].contTanque += 1;
+		    	break;
+		    }
+		    
+		    if(matriz[i][posy].tipo == 8){
+		    	zeraCelula(matriz,i,posy);
+		    	matriz[posx][posy].contPonto += 10;
+		    	matriz[posx][posy].contTanque += 1;
+		    	break;
+			}
+	    }
+	}
+	//Atira para o Leste
+	if(matriz[posx][posy].direcao==3){
+		for(i=(posy+1);i<VETORY;i++){
+			if(matriz[posx][i].tipo == 4){
+				zeraCelula(matriz,posx,i);
+				break;	
+			}
+			
+			 if(matriz[posx][i].tipo == 6){
+		    	zeraCelula(matriz,posx,i);
+		    	matriz[posx][posy].contPonto += 10;
+		    	matriz[posx][posy].contTanque += 1;
+		    	break;
+			}
+			
+			if(matriz[posx][i].tipo == 7){
+		    	zeraCelula(matriz,posx,i);
+		    	matriz[posx][posy].contPonto += 10;
+		    	matriz[posx][posy].contTanque += 1;
+		    	break;
+		    }
+		    
+		    if(matriz[posx][i].tipo == 8){
+		    	zeraCelula(matriz,posx,i);
+		    	matriz[posx][posy].contPonto += 10;
+		    	matriz[posx][posy].contTanque += 1;
+		    	break;
+			}
+	    }
+	}
+	//Atira para o Oeste
+	if(matriz[posx][posy].direcao==4){
+		for(i=(posy-1);i>0;i--){
+			if(matriz[posx][i].tipo == 4){
+				zeraCelula(matriz,posx,i);
+				break;
+			}
+			
+			 if(matriz[posx][i].tipo == 6){
+		    	zeraCelula(matriz,posx,i);
+		    	matriz[posx][posy].contPonto += 10;
+		    	matriz[posx][posy].contTanque += 1;
+		    	break;
+			}
+			
+			if(matriz[posx][i].tipo == 7){
+		    	zeraCelula(matriz,posx,i);
+		    	matriz[posx][posy].contPonto += 10;
+		    	matriz[posx][posy].contTanque += 1;
+		    	break;
+		    }
+		    
+		    if(matriz[posx][i].tipo == 8){
+		    	zeraCelula(matriz,posx,i);
+		    	matriz[posx][posy].contPonto += 10;
+		    	matriz[posx][posy].contTanque += 1;
+		    	break;
+			}
+	    }
+	}
 }
 
 
