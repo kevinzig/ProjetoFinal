@@ -524,6 +524,8 @@ void copiaTabuleiro(geral matriz[VETORX][VETORY],geral matrizAux[VETORX][VETORY]
 			matrizAux[i][j].tipo = matriz[i][j].tipo;
 			matrizAux[i][j].vida = matriz[i][j].vida;
 			matrizAux[i][j].direcao = matriz[i][j].direcao;
+			matrizAux[i][j].contPonto = matriz[i][j].contPonto;
+			matrizAux[i][j].contTanque = matriz[i][j].contTanque;
 			matrizAux[i][j].sprite = matriz[i][j].sprite;
 			
 		}
@@ -542,6 +544,8 @@ void colaTabuleiro(geral matriz[VETORX][VETORY],geral matrizAux[VETORX][VETORY])
 			matriz[i][j].tipo = matrizAux[i][j].tipo;
 			matriz[i][j].vida = matrizAux[i][j].vida;
 			matriz[i][j].direcao = matrizAux[i][j].direcao;
+			matriz[i][j].contPonto = matrizAux[i][j].contPonto;
+			matriz[i][j].contTanque = matrizAux[i][j].contTanque;
 			matriz[i][j].sprite = matrizAux[i][j].sprite;
 		}
 	}
@@ -563,6 +567,23 @@ void printaInfo(geral matriz[VETORX][VETORY]){
 	}
 	
 	printf("  VIDAS: %d \t\tTANQUES DESTRUIDOS: %d \t\tPONTOS: %d \n\n",matriz[posx][posy].vida, matriz[posx][posy].contTanque, matriz[posx][posy].contPonto);
+	
+	if(matriz[posx][posy].direcao==1){
+		printf(" Direcao do tanque: Norte\n\n\n");
+	}
+	
+	if(matriz[posx][posy].direcao==2){
+		printf(" Direcao do tanque: Sul\n\n\n");
+	}
+	
+	if(matriz[posx][posy].direcao==3){
+		printf(" Direcao do tanque: Leste\n\n\n");
+	}
+	
+	if(matriz[posx][posy].direcao==4){
+		printf(" Direcao do tanque: Oeste\n\n\n");
+	}
+	
 }
 
 
@@ -572,6 +593,8 @@ void zeraCelula(geral matriz[VETORX][VETORY], int x, int y){
 	matriz[x][y].tipo = 0;
 	matriz[x][y].vida = 0;
 	matriz[x][y].direcao = 0;
+	matriz[x][y].contPonto = 0;
+	matriz[x][y].contTanque = 0;
 	matriz[x][y].sprite = ' ';
 	
 }
