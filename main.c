@@ -402,22 +402,50 @@ void geraTijolos (geral matriz[VETORX][VETORY]){
 
 //Gera Tanque do Jogador Principal (Osório) (tipo==5).
 void tanqueOsorio (geral matriz[VETORX][VETORY]){
-	int i, j;
+	int i, j, var;
 	
-	srand(time(0));
+	srand(time(NULL));
 
 	//Gera tanque do jogador (Osório) em uma célula aleatória do tabuleiro.
-	do{
-		i = 1 + (rand() % 13);
-		j = 1 + (rand() % 13);
-		if(matriz[i][j].tipo == 0){
-			matriz[i][j].tipo = 5;
-			matriz[i][j].vida = 4;
-			matriz[i][j].direcao = 1;
-			matriz[i][j].sprite = 'O';
-		}
+	var = rand() % 3;
+		
+	switch(var){
+		
+		case 0:
+			
+			matriz[13][5].tipo = 5;
+			matriz[13][5].vida = 4;
+			matriz[13][5].direcao = 1;
+			matriz[13][5].contPonto = 0;
+			matriz[13][5].contTanque = 0;
+			matriz[13][5].sprite = 'O';
+			
+			break;
+			
+		case 1:
+			
+			matriz[13][9].tipo = 5;
+			matriz[13][9].vida = 4;
+			matriz[13][9].direcao = 1;
+			matriz[13][9].contPonto = 0;
+			matriz[13][9].contTanque = 0;
+			matriz[13][9].sprite = 'O';
+			
+			break;
+				
+		case 2:
+			
+			matriz[11][7].tipo = 5;
+			matriz[11][7].vida = 4;
+			matriz[11][7].direcao = 1;
+			matriz[11][7].contPonto = 0;
+			matriz[11][7].contTanque = 0;
+			matriz[11][7].sprite = 'O';
+			
+			break;
+		
 	}
-	while(matriz[i][j].tipo != 5);
+	
 	
 }
 
