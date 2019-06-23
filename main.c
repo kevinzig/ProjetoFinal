@@ -243,6 +243,7 @@ int main() {
 						if(contFase == 2){
 							system("cls");
 							printf("VOCE FOI DERROTADO!!!!\n\n\n");
+							ranking();
 							system("pause");
 							break;
 						}
@@ -251,6 +252,7 @@ int main() {
 					if(contFase == 2){
 						system("cls");
 						printf("VOCE FOI DERROTADO!!!!\n\n\n");
+						ranking();
 						system("pause");
 						break;
 					}
@@ -258,6 +260,7 @@ int main() {
 				if(contFase == 2){
 					system("cls");
 					printf("VOCE FOI DERROTADO!!!!\n\n\n");
+					ranking();
 					system("pause");
 					break;
 				}
