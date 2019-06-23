@@ -1042,6 +1042,10 @@ int fase2 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY], int *p
 				}			
 				break;
 				
+			case 6:
+				matriz[posx][posy].vida--;
+				break;
+				
 		}
 				
 	}
@@ -1210,6 +1214,10 @@ int fase3 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY], int *p
 					menuJogada = 5;
 									
 				}			
+				break;
+				
+			case 6:
+				matriz[posx][posy].vida--;
 				break;
 				
 		}
