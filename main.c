@@ -105,6 +105,10 @@ void tanqueCenturion ();
 void tanqueInimigoOsorio ();
 
 
+//Preenche o tabuleiro em relação ao tipo.
+void preencheTabuleiro();
+
+
 //Imprime o Tabuleiro.
 void imprimeTabuleiro ();
 
@@ -131,6 +135,10 @@ void zeraCelula();
 
 //Revive o tanque do jogador Osório.
 void reviveOsorio();
+
+
+//Recebe os parâmetros da Fase 1.
+void fase1 ();
 
 
 //=========================================================================================================================================================================================================================
@@ -194,6 +202,10 @@ int main() {
 	geral matrizAux[14][14];
 	int menuprincipal,menujogada,menusair,vardirecao,posx,posy,i,j;
 	
+	int varArq, cont=0;
+	
+	FILE *f;
+	
 	do{
 		system("cls");
 		printf("Bem vindo ao Battle City CEFET!!!\n\n[1] Jogar.\n[2] Debug.\n[3] Lista de jogadores.\n[4] Sair.\n\nEscolha uma opcao: ");
@@ -201,16 +213,12 @@ int main() {
 		
 		switch(menuprincipal){
 			case 1:
-
-				zeraMatriz(matriz);
-				geraLimite(matriz);
-				geraReliquia(matriz);
-				geraBloco(matriz);
+				
+				fase1(matriz);
 				geraTijolos(matriz);
 				tanqueOsorio(matriz);
-				tanqueAbrams(matriz);
-				tanqueCenturion(matriz);
-				tanqueInimigoOsorio(matriz);
+				preencheTabuleiro(matriz);
+				
 				
 				copiaTabuleiro(matriz,matrizAux);
 				
@@ -270,8 +278,8 @@ int main() {
 				while(menujogada != 5);
 				break;
 				
-				case 2 :
-					break;		
+			case 2 :
+				break;		
 		}
 	}
 	while(menuprincipal != 4);
@@ -292,52 +300,6 @@ int main() {
 
 
 //=========================================================================================================================================================================================================================
-
-
-//Zera a Matriz (tipo==0).
-void zeraMatriz (geral matriz[VETORX][VETORY]){
-	int i, j;
-		
-	//Transforma toda a matriz em células vazias.
-	for(i=0;i<=VETORY;i++){
-		for(j=0;j<=VETORY;j++){
-			zeraCelula(matriz,i,j);
-			} 	
-	}
-	
-}
-
-
-//Gera a Fronteira do Tabuleiro (tipo==1).
-void geraLimite(geral matriz[VETORX][VETORY]){
-	int i,j;
-	
-	//Cria a fronteira de zeros do tabuleiro.
-	for(i=0;i<=VETORX;i++){
-		matriz[0][i].tipo = 1;
-		matriz[0][i].sprite = '0';
-		matriz[VETORX][i].tipo = 1;
-		matriz[VETORX][i].sprite = '0';
-	}
-	for(i=1;i<=VETORY-1;i++){
-		matriz[i][0].tipo = 1;
-		matriz[i][0].sprite = '0';
-		matriz[i][VETORY].tipo = 1;	
-		matriz[i][VETORY].sprite = '0';
-	}
-	
-}
-
-
-//Gera Relíquia(tipo==2).
-void geraReliquia (geral matriz[VETORX][VETORY]){
-	
-	//Gera a relíquia em célula fixa do tabuleiro.
-	matriz[13][7].tipo = 2;
-	matriz[13][7].vida = 1;
-	matriz[13][7].sprite = 197;
-	
-}
 
 
 //Gera Blocos de Aço (tipo=3).
@@ -446,7 +408,6 @@ void tanqueOsorio (geral matriz[VETORX][VETORY]){
 		
 	}
 	
-	
 }
 
 
@@ -514,6 +475,82 @@ void tanqueInimigoOsorio (geral matriz[VETORX][VETORY]){
 	while(matriz[i][j].tipo != 8);
 	
 }
+
+
+//Preenche o tabuleiro em relação ao tipo.
+void preencheTabuleiro (geral matriz[VETORX][VETORY]){
+	int i, j;
+	
+	for(i=0;i<=VETORX;i++){
+		for(j=0;j<=VETORY;j++){
+			if(matriz[i][j].tipo == 0){
+				matriz[i][j].vida = 0;
+				matriz[i][j].direcao = 0;
+				matriz[i][j].contPonto = 0;
+				matriz[i][j].contTanque = 0;
+				matriz[i][j].sprite = ' ';
+			}
+			
+			if(matriz[i][j].tipo == 1){
+				matriz[i][j].vida = 0;
+				matriz[i][j].direcao = 0;
+				matriz[i][j].contPonto = 0;
+				matriz[i][j].contTanque = 0;
+				matriz[i][j].sprite = '0';
+			}
+			
+			if(matriz[i][j].tipo == 2){
+				matriz[i][j].vida = 0;
+				matriz[i][j].direcao = 0;
+				matriz[i][j].contPonto = 0;
+				matriz[i][j].contTanque = 0;
+				matriz[i][j].sprite = 197;
+			}
+			
+			if(matriz[i][j].tipo == 3){
+				matriz[i][j].vida = 0;
+				matriz[i][j].direcao = 0;
+				matriz[i][j].contPonto = 0;
+				matriz[i][j].contTanque = 0;
+				matriz[i][j].sprite = 219;
+			}
+			
+			if(matriz[i][j].tipo == 4){
+				matriz[i][j].vida = 0;
+				matriz[i][j].direcao = 0;
+				matriz[i][j].contPonto = 0;
+				matriz[i][j].contTanque = 0;
+				matriz[i][j].sprite = 177;
+			}
+			
+			if(matriz[i][j].tipo == 6){
+				matriz[i][j].vida = 0;
+				matriz[i][j].direcao = 1;
+				matriz[i][j].contPonto = 0;
+				matriz[i][j].contTanque = 0;
+				matriz[i][j].sprite = 'A';
+			}
+			
+			if(matriz[i][j].tipo == 7){
+				matriz[i][j].vida = 0;
+				matriz[i][j].direcao = 1;
+				matriz[i][j].contPonto = 0;
+				matriz[i][j].contTanque = 0;
+				matriz[i][j].sprite = 'C';
+			}
+			
+			if(matriz[i][j].tipo == 8){
+				matriz[i][j].vida = 0;
+				matriz[i][j].direcao = 1;
+				matriz[i][j].contPonto = 0;
+				matriz[i][j].contTanque = 0;
+				matriz[i][j].sprite = 'T';
+			}
+		}
+	}
+	
+}
+
 
 
 //Imprime o Tabuleiro.
@@ -652,6 +689,70 @@ void reviveOsorio(geral matriz[VETORX][VETORY], int x, int y){
 	}
 	while(matriz[i][j].tipo != 5);
 	
+}
+
+
+//Recebe os parâmetros da Fase 1.
+void fase1 (geral matriz[VETORX][VETORY]){
+	int i, j, cont, varArq;
+	
+	FILE *f;
+	
+	
+	f = fopen("mapas/fase1.txt","r");
+					
+	if(fopen("mapas/fase1.txt","r") == NULL){
+		perror("Erro ao abrir o arquivo!");
+	}
+	else{
+		
+		system("cls");
+		printf("Carregando jogo..");
+		sleep(1);
+		system("cls");
+		printf("Carregando jogo....");
+		sleep(1);
+		system("cls");
+		printf("Carregando jogo......");
+		sleep(1);
+		system("cls");
+		
+	}
+					
+	while(fscanf(f,"%i",&varArq) != EOF){
+		if(varArq>8){
+			system("cls");
+			printf("ERRO!!");
+			system("pause");
+		}
+			cont++;
+	}
+	
+	if(cont>225){
+		system("cls");
+		printf("ERRO!! Quantidade de Caracteres: %d ",cont);
+						
+		system("pause");
+	}
+					
+	rewind(f);
+					
+	for(i=0;i<=VETORX;i++){
+		for(j=0;j<=VETORY;j++){
+							
+			if(fscanf(f,"%i",&varArq) != EOF){
+								
+			matriz[i][j].tipo = varArq;
+								
+			}
+							
+		}
+						
+	}
+				
+	fclose(f);
+					
+					
 }
 
 
@@ -999,6 +1100,7 @@ void atiraOsorio(geral matriz[VETORX][VETORY]){
 		jogadaInimigoOsorio(matriz);
 		
 	}
+	
 }
 
 
@@ -1318,7 +1420,9 @@ void jogadaInimigoAbrams(geral matriz[VETORX][VETORY]){
 					
 		}
 		while(var!=1);
+		
 	}
+	
 }
 
 
