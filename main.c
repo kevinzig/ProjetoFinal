@@ -218,6 +218,10 @@ int main() {
 	geral matrizAux[VETORX][VETORY];
 	int menuprincipal, contFase;
 	
+	int ponto;
+	int vida;
+	int tanque;
+	
 	do{
 		system("cls");
 		printf("Bem vindo ao Battle City CEFET!!!\n\n[1] Jogar.\n[2] Debug.\n[3] Lista de jogadores.\n[4] Sair.\n\nEscolha uma opcao: ");
@@ -228,13 +232,13 @@ int main() {
 			//Jogar
 			case 1:
 				
-				contFase = fase1(matriz,matrizAux);
+				contFase = fase1(matriz,matrizAux,&ponto,&vida,&tanque);
 				
 				if(contFase == 1){
-					contFase = fase2(matriz,matrizAux);
+					contFase = fase2(matriz,matrizAux, &ponto, &vida, &tanque);
 					
 					if(contFase == 1){
-						contFase = fase3(matriz,matrizAux);
+						contFase = fase3(matriz,matrizAux,&ponto, &vida, &tanque);
 						
 						if(contFase == 1){
 							//VITORIA
@@ -243,6 +247,7 @@ int main() {
 						if(contFase == 2){
 							system("cls");
 							printf("VOCE FOI DERROTADO!!!!\n\n\n");
+							printf("\n\n%d           %d          %d\n\n",ponto, vida, tanque);
 							system("pause");
 							break;
 						}
@@ -251,6 +256,7 @@ int main() {
 					if(contFase == 2){
 						system("cls");
 						printf("VOCE FOI DERROTADO!!!!\n\n\n");
+						printf("\n\n%d           %d          %d\n\n",ponto, vida, tanque);
 						system("pause");
 						break;
 					}
@@ -258,6 +264,7 @@ int main() {
 				if(contFase == 2){
 					system("cls");
 					printf("VOCE FOI DERROTADO!!!!\n\n\n");
+					printf("\n\n%d           %d          %d\n\n",ponto, vida, tanque);
 					system("pause");
 					break;
 				}
@@ -715,7 +722,7 @@ void ranking(geral matriz[VETORX][VETORY]){
 
 
 //Recebe os parâmetros da Fase 1.
-int fase1 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
+int fase1 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY],int *ponto,int *vida, int *tanque){
 	int i, j, cont=0, varArq, menuJogada, menuSair, posx, posy;
 	
 	
@@ -796,9 +803,16 @@ int fase1 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
 		}
 		
 		if(matriz[posx][posy].contTanque == 6){
+			*ponto = matriz[posx][posy].contPonto;
+			*vida = matriz[posx][posy].vida;
+			*tanque = matriz[posx][posy].contTanque;
 			return 1;
 		}
+		
 		if(matriz[posx][posy].vida == 0){
+			*ponto = matriz[posx][posy].contPonto;
+			*vida = matriz[posx][posy].vida;
+			*tanque = matriz[posx][posy].contTanque;
 			return 2;
 		}
 		
@@ -870,7 +884,7 @@ int fase1 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
 
 
 //Recebe os parâmetros da Fase 2.
-int fase2 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
+int fase2 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY], int *ponto, int *vida, int *tanque){
 	int i, j, cont=0, varArq, menuJogada, menuSair, posx, posy;
 	
 	
@@ -936,6 +950,19 @@ int fase2 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
 				
 	copiaTabuleiro(matriz,matrizAux);
 	
+	for(i=0;i<=VETORY;i++){
+			for(j=0;j<=VETORY;j++){
+				if(matriz[i][j].tipo==5){
+					posx = i;
+					posy = j;
+				}
+			}
+	}
+	
+	matriz[posx][posy].vida = *vida;
+	matriz[posx][posy].contPonto = *ponto;
+	matriz[posx][posy].contTanque = *tanque;
+	
 	
 	
 	//Estrutura da jogada.
@@ -950,10 +977,17 @@ int fase2 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
 			}
 		}
 		
-		if(matriz[posx][posy].contTanque == 8){
+		if(matriz[posx][posy].contTanque == 14){
+			*ponto = matriz[posx][posy].contPonto;
+			*vida = matriz[posx][posy].vida;
+			*tanque = matriz[posx][posy].contTanque;
 			return 1;
 		}
+		
 		if(matriz[posx][posy].vida == 0){
+			*ponto = matriz[posx][posy].contPonto;
+			*vida = matriz[posx][posy].vida;
+			*tanque = matriz[posx][posy].contTanque;
 			return 2;
 		}
 		
@@ -1021,7 +1055,7 @@ int fase2 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
 
 
 //Recebe os parâmetros da Fase 3.
-int fase3 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
+int fase3 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY], int *ponto, int *vida, int *tanque){
 	int i, j, cont=0, varArq, menuJogada, menuSair, posx, posy;
 	
 	
@@ -1087,6 +1121,18 @@ int fase3 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
 				
 	copiaTabuleiro(matriz,matrizAux);
 	
+	for(i=0;i<=VETORY;i++){
+			for(j=0;j<=VETORY;j++){
+				if(matriz[i][j].tipo==5){
+					posx = i;
+					posy = j;
+				}
+			}
+	}
+	
+	matriz[posx][posy].vida = *vida;
+	matriz[posx][posy].contPonto = *ponto;
+	matriz[posx][posy].contTanque = *tanque;
 	
 	
 	//Estrutura da jogada.
@@ -1101,10 +1147,17 @@ int fase3 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
 			}
 		}
 		
-		if(matriz[posx][posy].contTanque == 10){
+		if(matriz[posx][posy].contTanque == 24){
+			*ponto = matriz[posx][posy].contPonto;
+			*vida = matriz[posx][posy].vida;
+			*tanque = matriz[posx][posy].contTanque;
 			return 1;
 		}
+		
 		if(matriz[posx][posy].vida == 0){
+			*ponto = matriz[posx][posy].contPonto;
+			*vida = matriz[posx][posy].vida;
+			*tanque = matriz[posx][posy].contTanque;
 			return 2;
 		}
 		
