@@ -140,6 +140,9 @@ void reviveOsorio();
 //Recebe os parâmetros da Fase 1.
 void fase1 ();
 
+//Recebe em um arquivo de texto o nome e pontuação dos jogadores e imprime na tela as infos ja obtidas.
+void ranking ();
+
 
 //=========================================================================================================================================================================================================================
 
@@ -753,6 +756,40 @@ void fase1 (geral matriz[VETORX][VETORY]){
 	fclose(f);
 					
 					
+}
+
+void ranking(geral matriz[VETORX][VETORY]){
+	FILE *fa,*fr;
+	char nome[10];
+	char c;
+	int i, j,posx,posy;
+	
+	//Encontrar tanque Osório.
+	for(i=0;i<=VETORY;i++){
+		for(j=0;j<=VETORY;j++){
+			if(matriz[i][j].tipo==5){
+				posx = i;
+				posy = j;
+			}
+		}
+	}
+	
+	 fa=fopen("ranking.txt","a");
+	 
+	 printf("Digite seu nome: ");
+	 gets(nome);
+	 
+	 fprintf(fa,"\n%s %d",nome,matriz[posx][posy].contPonto);
+	 
+	 fclose(fa);
+	 
+	 fr=fopen("ranking.txt","r");
+	 
+	 while(fscanf(fr,"%c",&c)!= EOF){
+	 	printf("%c",c);
+	 }
+	 
+     fclose(fr);
 }
 
 
