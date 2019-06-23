@@ -137,8 +137,11 @@ void zeraCelula();
 void reviveOsorio();
 
 
-//Recebe em um arquivo de texto o nome e pontuação dos jogadores e imprime na tela as infos ja obtidas.
-void ranking ();
+//Recebe em um arquivo de texto o nome e pontuação dos jogadores.
+void gravaRanking ();
+
+//Imprime na tela o nome e pontuação do jogador que estão salvos no arquivo de texto.
+void printaRanking ();
 
 
 //Recebe os parâmetros da Fase 1.
@@ -243,7 +246,7 @@ int main() {
 						if(contFase == 2){
 							system("cls");
 							printf("VOCE FOI DERROTADO!!!!\n\n\n");
-							ranking();
+							gravaRanking();
 							system("pause");
 							break;
 						}
@@ -252,7 +255,7 @@ int main() {
 					if(contFase == 2){
 						system("cls");
 						printf("VOCE FOI DERROTADO!!!!\n\n\n");
-						ranking();
+						gravaRanking();
 						system("pause");
 						break;
 					}
@@ -260,7 +263,7 @@ int main() {
 				if(contFase == 2){
 					system("cls");
 					printf("VOCE FOI DERROTADO!!!!\n\n\n");
-					ranking();
+					gravaRanking();
 					system("pause");
 					break;
 				}
@@ -269,7 +272,11 @@ int main() {
 			
 			//Debug.	
 			case 2 :
-				break;		
+				break;
+			//Lista de jogadores	
+			case 3 :	
+			    printaRanking();
+			    break;
 		}
 	}
 	while(menuprincipal != 4);
@@ -682,10 +689,9 @@ void reviveOsorio(geral matriz[VETORX][VETORY], int x, int y){
 }
 
 
-void ranking(geral matriz[VETORX][VETORY]){
-	FILE *fa,*fr;
+void gravaRanking(geral matriz[VETORX][VETORY]){
+	FILE *fa;
 	char nome[10];
-	char c;
 	int i, j,posx,posy;
 	
 	//Encontrar tanque Osório.
@@ -706,14 +712,19 @@ void ranking(geral matriz[VETORX][VETORY]){
 	 fprintf(fa,"\n%s %d",nome,matriz[posx][posy].contPonto);
 	 
 	 fclose(fa);
-	 
+}
+
+void printaRanking(geral matriz[VETORX][VETORY]){
+	FILE *fr;
+	char c;
+	
 	 fr=fopen("ranking.txt","r");
 	 
 	 while(fscanf(fr,"%c",&c)!= EOF){
 	 	printf("%c",c);
 	 }
 	 
-     fclose(fr);
+     fclose(fr);	
 }
 
 
