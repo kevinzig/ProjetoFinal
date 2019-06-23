@@ -145,6 +145,14 @@ int fase1 ();
 int fase2 ();
 
 
+//Recebe os parâmetros da Fase 2.
+int fase3 ();
+
+
+//Função de derrota.
+int derrota();
+
+
 //=========================================================================================================================================================================================================================
 
 
@@ -219,10 +227,35 @@ int main() {
 				contFase = fase1(matriz,matrizAux);
 				
 				if(contFase == 1){
-					fase2(matriz,matrizAux);
+					contFase = fase2(matriz,matrizAux);
+					
+					if(contFase == 1){
+						contFase = fase3(matriz,matrizAux);
+						
+						if(contFase == 1){
+							//VITORIA
+						}
+						
+						if(contFase == 2){
+							system("cls");
+							printf("VOCE FOI DERROTADO!!!!\n\n\n");
+							system("pause");
+							break;
+						}
+						
+					}
+					if(contFase == 2){
+						system("cls");
+						printf("VOCE FOI DERROTADO!!!!\n\n\n");
+						system("pause");
+						break;
+					}
 				}
 				if(contFase == 2){
-					//PERDE
+					system("cls");
+					printf("VOCE FOI DERROTADO!!!!\n\n\n");
+					system("pause");
+					break;
 				}
 				
 				break;
@@ -781,6 +814,10 @@ int fase1 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
 				}			
 				break;
 				
+			case 6:
+				matriz[posx][posy].vida--;
+				break;
+				
 		}
 				
 	}
@@ -875,6 +912,157 @@ int fase2 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
 		}
 		
 		if(matriz[posx][posy].contTanque == 8){
+			return 1;
+		}
+		if(matriz[posx][posy].vida == 0){
+			return 2;
+		}
+		
+				
+		espaco();
+		imprimeTabuleiro(matriz);
+						
+		printf("[1] Movimentar o tanque.\n[2] Disparar.\n[3] Girar o tanque.\n[4] Sair.\n\nEscolha uma opcao: ");
+		scanf("%d",&menuJogada);
+						
+		//menu jogada.
+		switch(menuJogada){
+							
+			//Movimentar tanque principal.
+			case 1:
+								
+				espaco();
+				movimentoOsorio(matriz);
+				break;
+								
+			//Dsparo do tanque.		
+			case 2:
+				
+				atiraOsorio(matriz);
+				
+				break;
+								
+			//Girar o tanque.	
+			case 3:
+								
+				espaco();
+				giraOsorio(matriz);
+				
+				break;
+								
+			//Sair.	
+			case 4:
+								
+				espaco();
+				imprimeTabuleiro(matriz);
+								
+				printf("[1] Reiniciar Fase.\n[2] Novo Jogo.\nEscolha uma opcao: ");
+				scanf("%d",&menuSair);
+								
+				if(menuSair==1){
+					colaTabuleiro(matriz,matrizAux);
+				}
+				if(menuSair==2){
+					
+					menuJogada = 5;
+									
+				}			
+				break;
+				
+		}
+				
+	}
+		
+	while(menuJogada != 5);
+	
+						
+	return 0;
+					
+}
+
+
+//Recebe os parâmetros da Fase 3.
+int fase3 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
+	int i, j, cont=0, varArq, menuJogada, menuSair, posx, posy;
+	
+	
+	FILE *f;
+	
+	
+	f = fopen("mapas/fase3.txt","r");
+					
+	if(fopen("mapas/fase3.txt","r") == NULL){
+		perror("Erro ao abrir o arquivo!");
+	}
+	else{
+		
+		system("cls");
+		printf("CARREGANDO FASE 3..");
+		sleep(1);
+		system("cls");
+		printf("CARREGANDO FASE 3....");
+		sleep(1);
+		system("cls");
+		printf("CARREGANDO FASE 3......");
+		sleep(1);
+		system("cls");
+		
+	}
+					
+	while(fscanf(f,"%i",&varArq) != EOF){
+		if(varArq>8){
+			system("cls");
+			printf("ERRO!!");
+			system("pause");
+		}
+			cont++;
+	}
+	
+	if(cont>225){
+		system("cls");
+		printf("ERRO!! Quantidade de Caracteres: %d ",cont);
+						
+		system("pause");
+	}
+					
+	rewind(f);
+					
+	for(i=0;i<=VETORX;i++){
+		for(j=0;j<=VETORY;j++){
+							
+			if(fscanf(f,"%i",&varArq) != EOF){
+								
+			matriz[i][j].tipo = varArq;
+								
+			}
+							
+		}
+						
+	}
+				
+	fclose(f);
+	
+	geraTijolos(matriz);
+	tanqueOsorio(matriz);
+	preencheTabuleiro(matriz);		
+				
+	copiaTabuleiro(matriz,matrizAux);
+	
+	
+	
+	//Estrutura da jogada.
+	do{
+		
+		for(i=0;i<=VETORY;i++){
+			for(j=0;j<=VETORY;j++){
+				if(matriz[i][j].tipo==5){
+					posx = i;
+					posy = j;
+				}
+			}
+		}
+		
+		if(matriz[posx][posy].contTanque == 10){
 			return 1;
 		}
 		if(matriz[posx][posy].vida == 0){
