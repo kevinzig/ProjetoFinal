@@ -152,9 +152,8 @@ int fase2 ();
 //Recebe os parâmetros da Fase 2.
 int fase3 ();
 
-
-//Função de derrota.
-int derrota();
+//mensagem de derrota e gravação do ranking.
+void derrota();
 
 
 //=========================================================================================================================================================================================================================
@@ -218,8 +217,8 @@ int main() {
 	geral matrizAux[VETORX][VETORY];
 	int menuprincipal, contFase;
 	
-	int ponto;
 	int vida;
+	int ponto;
 	int tanque;
 	
 	do{
@@ -245,27 +244,18 @@ int main() {
 						}
 						
 						if(contFase == 2){
-							system("cls");
-							printf("VOCE FOI DERROTADO!!!!\n\n\n");
-							printf("\n\n%d           %d          %d\n\n",ponto, vida, tanque);
-							system("pause");
 							break;
 						}
 						
 					}
 					if(contFase == 2){
-						system("cls");
-						printf("VOCE FOI DERROTADO!!!!\n\n\n");
-						printf("\n\n%d           %d          %d\n\n",ponto, vida, tanque);
-						system("pause");
 						break;
 					}
 				}
 				if(contFase == 2){
-					system("cls");
-					printf("VOCE FOI DERROTADO!!!!\n\n\n");
-					printf("\n\n%d           %d          %d\n\n",ponto, vida, tanque);
-					system("pause");
+					
+					derrota(vida,ponto);
+					
 					break;
 				}
 				
@@ -978,15 +968,15 @@ int fase2 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY], int *p
 		}
 		
 		if(matriz[posx][posy].contTanque == 14){
-			*ponto = matriz[posx][posy].contPonto;
 			*vida = matriz[posx][posy].vida;
+			*ponto = matriz[posx][posy].contPonto;
 			*tanque = matriz[posx][posy].contTanque;
 			return 1;
 		}
 		
 		if(matriz[posx][posy].vida == 0){
-			*ponto = matriz[posx][posy].contPonto;
 			*vida = matriz[posx][posy].vida;
+			*ponto = matriz[posx][posy].contPonto;
 			*tanque = matriz[posx][posy].contTanque;
 			return 2;
 		}
@@ -1229,6 +1219,22 @@ int fase3 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY], int *p
 						
 	return 0;
 					
+}
+
+void derrota(int vida, int ponto){
+	
+	system("cls");
+	printf("VOCE FOI DERROTADO!!!!!!!");
+	
+	if(vida==0){
+		printf("\n\nPontuacao total: %i",ponto);
+	}
+	else{
+		printf("\n\nPontuacao total: %i",(vida * ponto));
+	}
+	
+	sleep(4);
+	
 }
 
 
