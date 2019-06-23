@@ -679,6 +679,41 @@ void reviveOsorio(geral matriz[VETORX][VETORY], int x, int y){
 }
 
 
+void ranking(geral matriz[VETORX][VETORY]){
+	FILE *fa,*fr;
+	char nome[10];
+	char c;
+	int i, j,posx,posy;
+	
+	//Encontrar tanque Osório.
+	for(i=0;i<=VETORY;i++){
+		for(j=0;j<=VETORY;j++){
+			if(matriz[i][j].tipo==5){
+				posx = i;
+				posy = j;
+			}
+		}
+	}
+	
+	 fa=fopen("ranking.txt","a");
+	 
+	 printf("Digite seu nome: ");
+	 gets(nome);
+	 
+	 fprintf(fa,"\n%s %d",nome,matriz[posx][posy].contPonto);
+	 
+	 fclose(fa);
+	 
+	 fr=fopen("ranking.txt","r");
+	 
+	 while(fscanf(fr,"%c",&c)!= EOF){
+	 	printf("%c",c);
+	 }
+	 
+     fclose(fr);
+}
+
+
 //Recebe os parâmetros da Fase 1.
 int fase1 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
 	int i, j, cont=0, varArq, menuJogada, menuSair, posx, posy;
@@ -984,40 +1019,6 @@ int fase2 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
 					
 }
 
-void ranking(geral matriz[VETORX][VETORY]){
-	FILE *fa,*fr;
-	char nome[10];
-	char c;
-	int i, j,posx,posy;
-	
-	//Encontrar tanque Osório.
-	for(i=0;i<=VETORY;i++){
-		for(j=0;j<=VETORY;j++){
-			if(matriz[i][j].tipo==5){
-				posx = i;
-				posy = j;
-			}
-		}
-	}
-	
-	 fa=fopen("ranking.txt","a");
-	 
-	 printf("Digite seu nome: ");
-	 gets(nome);
-	 
-	 fprintf(fa,"\n%s %d",nome,matriz[posx][posy].contPonto);
-	 
-	 fclose(fa);
-	 
-	 fr=fopen("ranking.txt","r");
-	 
-	 while(fscanf(fr,"%c",&c)!= EOF){
-	 	printf("%c",c);
-	 }
-	 
-     fclose(fr);
-}
-
 
 //Recebe os parâmetros da Fase 3.
 int fase3 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
@@ -1168,6 +1169,8 @@ int fase3 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY]){
 	return 0;
 					
 }
+
+
 
 
 //=========================================================================================================================================================================================================================
