@@ -137,8 +137,12 @@ void zeraCelula();
 void reviveOsorio();
 
 
-//Recebe em um arquivo de texto o nome e pontuação dos jogadores e imprime na tela as infos ja obtidas.
-void ranking ();
+//Recebe em um arquivo de texto o nome e pontuação dos jogadores.
+void gravaRanking();
+
+
+//Mostra a lista de jogadores.
+void imprimeRanking();
 
 
 //Recebe os parâmetros da Fase 1.
@@ -241,13 +245,12 @@ int main() {
 						
 						if(contFase == 1){
 							//VITORIA
-							ranking(ponto);
+							gravaRanking(ponto);
 						}
 						
 						if(contFase == 2){
 							
 							derrota(vida,ponto);
-							ranking(ponto);
 							break;
 						}
 						
@@ -255,14 +258,12 @@ int main() {
 					if(contFase == 2){
 						
 						derrota(vida,ponto);
-						ranking(ponto);
 						break;
 					}
 				}
 				if(contFase == 2){
 					
 					derrota(vida,ponto);
-					ranking(ponto);
 					break;
 				}
 				
@@ -714,16 +715,16 @@ void reviveOsorio(geral matriz[VETORX][VETORY], int x, int y){
 }
 
 //Grava naa lista do jogador.
-void gravaRanking(int ponto)	{
+void gravaRanking(int ponto, int vida)	{
 	FILE *fa;
 	char nome[10];
-	
-	 fa=fopen("ranking.txt","a");
+	 
+	fa=fopen("ranking.txt","a");
 	 
 	 printf("Digite seu nome: ");
 	 gets(nome);
 	 
-	 fprintf(fa,"\n%s %d",nome,ponto);
+	 fprintf(fa,"\n %s %d",nome,ponto*vida);
 	 
 	 fclose(fa);
 }
@@ -747,6 +748,7 @@ void imprimeRanking()	{
 
      fclose(fa);
      
+     printf("\n\n\n");
      system("PAUSE");
 }
 
@@ -1262,9 +1264,12 @@ int fase3 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY], int *p
 
 
 void derrota(int vida, int ponto){
+	FILE *fa;
+	char nome[10];
 	
 	system("cls");
 	printf("VOCE FOI DERROTADO!!!!!!!");
+	
 	
 	if(vida==0){
 		printf("\n\nPontuacao total: %i",ponto);
@@ -1272,9 +1277,23 @@ void derrota(int vida, int ponto){
 	else{
 		printf("\n\nPontuacao total: %i",(vida * ponto));
 	}
-	
 	sleep(4);
+	system("cls");
 	
+	printf("Digite seu nome(sem espaços): ");
+    scanf("%s",&nome);
+	 
+	fa=fopen("ranking.txt","a");
+	
+	if(vida==0){
+		fprintf(fa,"\n %s %d",nome,ponto);
+	}
+	else{
+		fprintf(fa,"\n %s %d",nome,ponto*vida);
+	}
+	 
+	 fclose(fa);	
+	 system("pause");
 }
 
 
