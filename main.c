@@ -687,8 +687,8 @@ void reviveOsorio(geral matriz[VETORX][VETORY], int x, int y){
 	
 }
 
-
-void ranking(int ponto){
+//Grava naa lista do jogador.
+void gravaRanking(int ponto)	{
 	FILE *fa;
 	char nome[10];
 	
@@ -702,23 +702,23 @@ void ranking(int ponto){
 	 fclose(fa);
 }
 
-void imprimeRanking(){
+
+//Mostra a lista de jogadores.
+void imprimeRanking()	{
      FILE *fa;
      char c;
      
      system("cls");
  
      fa=fopen("ranking.txt","r");
-	 if(fa==NULL){
+	 if(fa==NULL)	{
 	 	perror("Erro ao abrir");
-}
-     else{
-     printf("\n\n\t");
-	 while( fscanf(fa,"%c",&c) != EOF){
+	}
+     
+	 while( fscanf(fa,"%c",&c) != EOF)	{
 	 	printf("%c",c);
-	 }
-	 printf("\n\n");
-}
+	}
+
      fclose(fa);
      
      system("PAUSE");
