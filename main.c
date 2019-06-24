@@ -50,6 +50,8 @@ typedef struct{
 	//Tanque inimigo M1 Ambrans = 6.
 	//Tanque inimigo Centurion = 7.
 	//Tanque inimigo Osório = 8.
+	//Tanque inimigo M1 Ambrans 2 = 9.
+	//Tanque inimigo Centurion 2 = 10.
 	
 }geral;
 
@@ -67,22 +69,6 @@ typedef struct{
 
 
 //=========================================================================================================================================================================================================================
-
-
-//Zera a Matriz (tipo==0) .
-void zeraMatriz ();
-
-
-//Gera a Fronteira do Tabuleiro (tipo==1).
-void geraLimite();
-
-
-//Gera Relíquia(tipo==2).
-void geraReliquia ();
-
-
-//Gera Blocos de Aço (tipo=3).
-void geraBloco();
 
 
 //Gera Tijolos Normais (tipo==4).
@@ -161,12 +147,13 @@ int fase1 ();
 int fase2 ();
 
 
-//Recebe os parâmetros da Fase 2.
+//Recebe os parâmetros da Fase 3.
 int fase3 ();
 
-//mensagem de derrota e gravação do ranking.
+//Mensagem de derrota e gravação do ranking.
 void derrota();
 
+//Mensagem de vitória e gravação no ranking.
 void vitoria();
 
 
@@ -243,7 +230,7 @@ int main() {
 	
 	do{
 		system("cls");
-		printf("Bem vindo ao Battle City CEFET!!!\n\n[1] Jogar.\n[2] Debug.\n[3] Lista de jogadores.\n[4] Sair.\n\nEscolha uma opcao: ");
+		printf("\n\n\tBem vindo ao Battle City CEFET!!!\n\n\t[1] Jogar.\n\t[2] Lista de jogadores.\n\t[3] Sair.\n\n\tEscolha uma opcao: ");
 		scanf("%d",&menuprincipal);
 		
 		switch(menuprincipal){
@@ -280,18 +267,13 @@ int main() {
 				}
 				
 				break;
-			
-			//Debug.	
-			case 2 :
-				break;	
-			
 			//Lista.
-			case 3 :
+			case 2 :
 				imprimeRanking();
 				break;	
 		}
 	}
-	while(menuprincipal != 4);
+	while(menuprincipal != 3);
 	return 0;
 }
 
@@ -982,10 +964,6 @@ int fase1 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY],int *po
 				}			
 				break;
 				
-			case 6:
-				matriz[posx][posy].vida--;
-				break;
-				
 		}
 				
 	}
@@ -1163,10 +1141,6 @@ int fase2 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY], int *p
 				}			
 				break;
 				
-			case 6:
-				matriz[posx][posy].vida--;
-				break;
-				
 		}
 				
 	}
@@ -1342,10 +1316,6 @@ int fase3 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY], int *p
 					menuJogada = 5;
 									
 				}			
-				break;
-				
-			case 6:
-				matriz[posx][posy].vida--;
 				break;
 				
 		}
