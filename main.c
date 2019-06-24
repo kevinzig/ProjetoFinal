@@ -1524,10 +1524,9 @@ void atiraOsorio(geral matriz[VETORX][VETORY]){
 		    	break;
 		    	
 			}
-			
-			jogadaInimigoAbrams(matriz);
-			
         }
+        
+        jogadaInimigoAbrams(matriz);
         
         if(cont==6){
       	  tanqueAbrams(matriz);	
@@ -1590,9 +1589,10 @@ void atiraOsorio(geral matriz[VETORX][VETORY]){
 		    	break;
 			}
 			
-			jogadaInimigoAbrams(matriz);
-			
+					
 	    }
+	    
+	    jogadaInimigoAbrams(matriz);
 	    
 	    if(cont==6){
       	  tanqueAbrams(matriz);	
@@ -1655,9 +1655,8 @@ void atiraOsorio(geral matriz[VETORX][VETORY]){
 		    	break;
 			}
 			
-			jogadaInimigoAbrams(matriz);
-			
 	    }
+	    jogadaInimigoAbrams(matriz);
 	    
 	    if(cont==6){
       	  tanqueAbrams(matriz);	
@@ -1719,10 +1718,8 @@ void atiraOsorio(geral matriz[VETORX][VETORY]){
 		    	cont = 8;
 		    	break;
 			}
-			
-			jogadaInimigoAbrams(matriz);
-			
-	    }
+		}
+		jogadaInimigoAbrams(matriz);
 	    
 	    if(cont==6){
       	  tanqueAbrams(matriz);	
@@ -1741,7 +1738,7 @@ void atiraOsorio(geral matriz[VETORX][VETORY]){
 
 //Movimenta aleatóriamente o tanque inimigo M1 Abrams.
 void jogadaInimigoAbrams(geral matriz[VETORX][VETORY]){
-	int i, j, posx, posy, aleJogada, aleMov, dirTiro, var=0;
+	int i, j, posx, posy, aleJogada, aleMov, dirTiro;
 	
 	
 	//Encontrar tanque M1 Abrams.
@@ -1785,39 +1782,39 @@ void jogadaInimigoAbrams(geral matriz[VETORX][VETORY]){
 						
 						if(matriz[i][posy].tipo == 4){
 		    				zeraCelula(matriz,i,posy);
-		    				var=1;
+		    				
 		    				break;
 						}
 						
 						if(matriz[i][posy].tipo == 5){
 							reviveOsorio(matriz,i,posy);
 		    				zeraCelula(matriz,i,posy);
-		    				var=1;
+		    				
 		    				break;
 						}
 		    
 		    			if(matriz[i][posy].tipo == 6){
 		    				zeraCelula(matriz,i,posy);
 		    				tanqueAbrams(matriz);
-		    				var=1;
+		    				
 		    				break;
 						}
 			
 						if(matriz[i][posy].tipo == 7){
 		    				zeraCelula(matriz,i,posy);
 		    				tanqueCenturion(matriz);
-		    				var=1;
+		    				
 		    				break;
 		    			}
 		    
 						if(matriz[i][posy].tipo == 8){
 		    				zeraCelula(matriz,i,posy);
 		    				tanqueInimigoOsorio(matriz);
-		    				var=1;
+		    				
 		    				break;
 						}
 						
-						var=1;
+						
 									
 					}
 					
@@ -1845,39 +1842,39 @@ void jogadaInimigoAbrams(geral matriz[VETORX][VETORY]){
 						
 						if(matriz[i][posy].tipo == 4){
 		    				zeraCelula(matriz,i,posy);
-		    				var=1;
+		    				
 		    				break;
 						}
 						
 						if(matriz[i][posy].tipo == 5){
 							reviveOsorio(matriz,i,posy);
 		    				zeraCelula(matriz,i,posy);
-		    				var=1;
+		    				
 		    				break;
 						}
 		    
 		    			if(matriz[i][posy].tipo == 6){
 		    				zeraCelula(matriz,i,posy);
 		    				tanqueAbrams(matriz);
-		    				var=1;
+		    				
 		    				break;
 						}
 			
 						if(matriz[i][posy].tipo == 7){
 		    				zeraCelula(matriz,i,posy);
 		    				tanqueCenturion(matriz);
-		    				var=1;
+		    				
 		    				break;
 		    			}
 		    
 						if(matriz[i][posy].tipo == 8){
 		    				zeraCelula(matriz,i,posy);
 		    				tanqueInimigoOsorio(matriz);
-		    				var=1;
+		    				
 		    				break;
 						}
 						
-						var=1;
+						
 									
 					}						
 				
@@ -1906,39 +1903,39 @@ void jogadaInimigoAbrams(geral matriz[VETORX][VETORY]){
 						
 						if(matriz[posx][i].tipo == 4){
 		    				zeraCelula(matriz,posx,i);
-		    				var=1;
+		    				
 		    				break;
 						}
 						
 						if(matriz[posx][i].tipo == 5){
 							reviveOsorio(matriz,posx,i);
 		    				zeraCelula(matriz,posx,i);
-		    				var=1;
+		    				
 		    				break;
 						}
 		    
 		    			if(matriz[posx][i].tipo == 6){
 		    				zeraCelula(matriz,posx,i);
 		    				tanqueAbrams(matriz);
-		    				var=1;
+		    				
 		    				break;
 						}
 			
 						if(matriz[posx][i].tipo == 7){
 		    				zeraCelula(matriz,posx,i);
 		    				tanqueCenturion(matriz);
-		    				var=1;
+		    				
 		    				break;
 		    			}
 		    
 						if(matriz[posx][i].tipo == 8){
 		    				zeraCelula(matriz,posx,i);
 		    				tanqueInimigoOsorio(matriz);
-		    				var=1;
+		    				
 		    				break;
 						}
 						
-						var=1;
+						
 									
 					}
 					
@@ -1966,39 +1963,36 @@ void jogadaInimigoAbrams(geral matriz[VETORX][VETORY]){
 						
 						if(matriz[posx][i].tipo == 4){
 		    				zeraCelula(matriz,posx,i);
-		    				var=1;
+		    				
 		    				break;
 						}
 						
 						if(matriz[posx][i].tipo == 5){
 							reviveOsorio(matriz,posx,i);
 		    				zeraCelula(matriz,posx,i);
-		    				var=1;
+		    				
 		    				break;
 						}
 		    
 		    			if(matriz[posx][i].tipo == 6){
 		    				zeraCelula(matriz,posx,i);
 		    				tanqueAbrams(matriz);
-		    				var=1;
+		    				
 		    				break;
 						}
 			
 						if(matriz[posx][i].tipo == 7){
 		    				zeraCelula(matriz,posx,i);
 		    				tanqueCenturion(matriz);
-		    				var=1;
+		    				
 		    				break;
 		    			}
 		    
 						if(matriz[posx][i].tipo == 8){
 		    				zeraCelula(matriz,posx,i);
 		    				tanqueInimigoOsorio(matriz);
-		    				var=1;
 		    				break;
 						}
-						
-						var=1;
 									
 					}
 					
@@ -2025,8 +2019,6 @@ void jogadaInimigoAbrams(geral matriz[VETORX][VETORY]){
 						matriz[posx-1][posy].direcao = 1;
 						matriz[posx-1][posy].sprite = matriz[posx][posy].sprite;
 						zeraCelula(matriz,posx,posy);
-						
-						var=1;
 					}
 					
 					break;
@@ -2042,8 +2034,6 @@ void jogadaInimigoAbrams(geral matriz[VETORX][VETORY]){
 						matriz[posx+1][posy].direcao = 2;
 						matriz[posx+1][posy].sprite = matriz[posx][posy].sprite;
 						zeraCelula(matriz,posx,posy);
-						
-						var=1;
 					}
 			
 					break;
@@ -2059,8 +2049,6 @@ void jogadaInimigoAbrams(geral matriz[VETORX][VETORY]){
 						matriz[posx][posy+1].direcao = 3;
 						matriz[posx][posy+1].sprite = matriz[posx][posy].sprite;
 						zeraCelula(matriz,posx,posy);
-						
-						var=1;
 					}
 					
 					break;
@@ -2076,8 +2064,6 @@ void jogadaInimigoAbrams(geral matriz[VETORX][VETORY]){
 						matriz[posx][posy-1].direcao = 4;
 						matriz[posx][posy-1].sprite = matriz[posx][posy].sprite;
 						zeraCelula(matriz,posx,posy);
-						
-						var=1;
 					}
 				
 					break;
