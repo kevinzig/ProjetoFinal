@@ -413,8 +413,10 @@ void tanqueAbrams (geral matriz[VETORX][VETORY]){
 		j = 1 + (rand() % 13);
 		if(matriz[i][j].tipo == 0){
 			matriz[i][j].tipo = 6;
-			matriz[i][j].vida = 1;
+			matriz[i][j].vida = 0;
 			matriz[i][j].direcao = 1;
+			matriz[i][j].contTanque = 0;
+			matriz[i][j].contPonto= 0;
 			matriz[i][j].sprite = 'A';
 		}
 	}
@@ -437,6 +439,8 @@ void tanqueCenturion (geral matriz[VETORX][VETORY]){
 			matriz[i][j].tipo = 7;
 			matriz[i][j].vida = 1;
 			matriz[i][j].direcao = 1;
+			matriz[i][j].contTanque = 0;
+			matriz[i][j].contPonto= 0;
 			matriz[i][j].sprite = 'C';
 		}
 	}
@@ -459,6 +463,8 @@ void tanqueInimigoOsorio (geral matriz[VETORX][VETORY]){
 			matriz[i][j].tipo = 8;
 			matriz[i][j].vida = 1;
 			matriz[i][j].direcao = 1;
+			matriz[i][j].contTanque = 0;
+			matriz[i][j].contPonto= 0;
 			matriz[i][j].sprite = 'T';
 		}
 	}
@@ -540,7 +546,6 @@ void preencheTabuleiro (geral matriz[VETORX][VETORY]){
 	}
 	
 }
-
 
 
 //Imprime o Tabuleiro.
@@ -657,27 +662,48 @@ void zeraCelula(geral matriz[VETORX][VETORY], int x, int y){
 
 //Revive o tanque do jogador Osório.
 void reviveOsorio(geral matriz[VETORX][VETORY], int x, int y){
-	int i, j;
+	int i, j, var;
 
-	srand(time(0));
-
-	//Gera tanque do jogador (Osório) em uma célula aleatória do tabuleiro.
-	do{
-		i = 1 + (rand() % 14);
-		j = 1 + (rand() % 14);
-		if(matriz[i][j].tipo == 0){
-			matriz[i][j].tipo = matriz[x][y].tipo;
-			matriz[i][j].vida = matriz[x][y].vida;
-			matriz[i][j].contPonto = matriz[x][y].contPonto;
-			matriz[i][j].contTanque = matriz[x][y].contTanque;
-			matriz[i][j].direcao = matriz[x][y].direcao;
-			matriz[i][j].sprite = matriz[x][y].sprite;
+	srand(time(NULL));
+	
+	var = rand() % 3;
+		
+	switch(var){
+		
+		case 0:
 			
-			matriz[i][j].vida = matriz[i][j].vida - 1;
+			matriz[13][5].tipo = matriz[x][y].tipo;
+			matriz[13][5].vida = matriz[x][y].vida - 1;
+			matriz[13][5].direcao = 1;
+			matriz[13][5].contPonto = matriz[x][y].contPonto;
+			matriz[13][5].contTanque = matriz[x][y].contTanque;
+			matriz[13][5].sprite = matriz[x][y].sprite;
 			
-		}
+			break;
+			
+		case 1:
+			
+			matriz[13][9].tipo = matriz[x][y].tipo;
+			matriz[13][9].vida = matriz[x][y].vida - 1;
+			matriz[13][9].direcao = 1;
+			matriz[13][9].contPonto = matriz[x][y].contPonto;
+			matriz[13][9].contTanque = matriz[x][y].contTanque;
+			matriz[13][9].sprite = matriz[x][y].sprite;
+			
+			break;
+				
+		case 2:
+			
+			matriz[11][7].tipo = matriz[x][y].tipo;
+			matriz[11][7].vida = matriz[x][y].vida - 1;
+			matriz[11][7].direcao = 1;
+			matriz[11][7].contPonto = matriz[x][y].contPonto;
+			matriz[11][7].contTanque = matriz[x][y].contTanque;
+			matriz[11][7].sprite = matriz[x][y].sprite;
+			
+			break;
+		
 	}
-	while(matriz[i][j].tipo != 5);
 	
 }
 
@@ -1227,6 +1253,7 @@ int fase3 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY], int *p
 					
 }
 
+
 void derrota(int vida, int ponto){
 	
 	system("cls");
@@ -1302,6 +1329,7 @@ void movimentoOsorio (geral matriz[VETORX][VETORY]){
 			}
 			
 			jogadaInimigoAbrams(matriz);
+			jogadaInimigoCenturion(matriz);
 			
 		}
 							
@@ -1319,6 +1347,7 @@ void movimentoOsorio (geral matriz[VETORX][VETORY]){
 			}
 			
 			jogadaInimigoAbrams(matriz);
+			jogadaInimigoCenturion(matriz);
 			
 		}
 								
@@ -1336,6 +1365,7 @@ void movimentoOsorio (geral matriz[VETORX][VETORY]){
 			}
 			
 			jogadaInimigoAbrams(matriz);
+			jogadaInimigoCenturion(matriz);
 			
 		}
 								
@@ -1353,6 +1383,7 @@ void movimentoOsorio (geral matriz[VETORX][VETORY]){
 			}
 			
 			jogadaInimigoAbrams(matriz);
+			jogadaInimigoCenturion(matriz);
 			
 		}
 			
@@ -1446,30 +1477,45 @@ void atiraOsorio(geral matriz[VETORX][VETORY]){
 		    
 		    if(matriz[i][posy].tipo == 6){
 		    	zeraCelula(matriz,i,posy);
-		    	tanqueAbrams(matriz);
 		    	matriz[posx][posy].contPonto += 10;
 		    	matriz[posx][posy].contTanque += 1;
+		    	
+		    	cont = 6;
 		    	break;
 			}
 			
 			if(matriz[i][posy].tipo == 7){
 		    	zeraCelula(matriz,i,posy);
-		    	tanqueCenturion(matriz);
 		    	matriz[posx][posy].contPonto += 10;
 		    	matriz[posx][posy].contTanque += 1;
+		    	
+		    	cont = 7;
 		    	break;
 		    }
 		    
 		    if(matriz[i][posy].tipo == 8){
 		    	zeraCelula(matriz,i,posy);
-		    	tanqueInimigoOsorio(matriz);
 		    	matriz[posx][posy].contPonto += 10;
 		    	matriz[posx][posy].contTanque += 1;
+		    	
+		    	cont = 8;
 		    	break;
+		    	
 			}
         }
         
         jogadaInimigoAbrams(matriz);
+        jogadaInimigoCenturion(matriz);
+        
+        if(cont==6){
+      	  tanqueAbrams(matriz);	
+        }
+        if(cont==7){
+      	  tanqueCenturion(matriz);	
+        }
+        if(cont==8){
+      	  tanqueInimigoOsorio(matriz);	
+        }
 		
 	}
 	
@@ -1497,30 +1543,44 @@ void atiraOsorio(geral matriz[VETORX][VETORY]){
 			
 			if(matriz[i][posy].tipo == 6){
 		    	zeraCelula(matriz,i,posy);
-		    	tanqueAbrams(matriz);
 		    	matriz[posx][posy].contPonto += 10;
 		    	matriz[posx][posy].contTanque += 1;
+		    	
+		    	cont = 6;
 		    	break;
 			}
 			
 			if(matriz[i][posy].tipo == 7){
 		    	zeraCelula(matriz,i,posy);
-		    	tanqueCenturion(matriz);
 		    	matriz[posx][posy].contPonto += 10;
 		    	matriz[posx][posy].contTanque += 1;
+		    	
+		    	cont = 7;
 		    	break;
 		    }
 		    
 		    if(matriz[i][posy].tipo == 8){
 		    	zeraCelula(matriz,i,posy);
-		    	tanqueInimigoOsorio(matriz);
 		    	matriz[posx][posy].contPonto += 10;
 		    	matriz[posx][posy].contTanque += 1;
+		    	
+		    	cont = 8;
 		    	break;
 			}
 	    }
 	    
 	    jogadaInimigoAbrams(matriz);
+	    jogadaInimigoCenturion(matriz);
+	    
+	    if(cont==6){
+      	  tanqueAbrams(matriz);	
+        }
+        if(cont==7){
+      	  tanqueCenturion(matriz);	
+        }
+        if(cont==8){
+      	  tanqueInimigoOsorio(matriz);	
+        }
 		
 	}
 	
@@ -1548,30 +1608,44 @@ void atiraOsorio(geral matriz[VETORX][VETORY]){
 			
 			 if(matriz[posx][i].tipo == 6){
 		    	zeraCelula(matriz,posx,i);
-		    	tanqueAbrams(matriz);
 		    	matriz[posx][posy].contPonto += 10;
 		    	matriz[posx][posy].contTanque += 1;
+		    	
+		    	cont = 6;
 		    	break;
 			}
 			
 			if(matriz[posx][i].tipo == 7){
 		    	zeraCelula(matriz,posx,i);
-		    	tanqueCenturion(matriz);
 		    	matriz[posx][posy].contPonto += 10;
 		    	matriz[posx][posy].contTanque += 1;
+		    	
+		    	cont = 7;
 		    	break;
 		    }
 		    
 		    if(matriz[posx][i].tipo == 8){
 		    	zeraCelula(matriz,posx,i);
-		    	tanqueInimigoOsorio(matriz);
 		    	matriz[posx][posy].contPonto += 10;
 		    	matriz[posx][posy].contTanque += 1;
+		    	
+		    	cont = 8;
 		    	break;
 			}
 	    }
 	    
 	    jogadaInimigoAbrams(matriz);
+	    jogadaInimigoCenturion(matriz);
+	    
+	    if(cont==6){
+      	  tanqueAbrams(matriz);	
+        }
+        if(cont==7){
+      	  tanqueCenturion(matriz);	
+        }
+        if(cont==8){
+      	  tanqueInimigoOsorio(matriz);	
+        }
 		
 	}
 	
@@ -1599,345 +1673,655 @@ void atiraOsorio(geral matriz[VETORX][VETORY]){
 			
 			 if(matriz[posx][i].tipo == 6){
 		    	zeraCelula(matriz,posx,i);
-		    	tanqueAbrams(matriz);
 		    	matriz[posx][posy].contPonto += 10;
 		    	matriz[posx][posy].contTanque += 1;
+		    	
+		    	cont = 6;
 		    	break;
 			}
 			
 			if(matriz[posx][i].tipo == 7){
 		    	zeraCelula(matriz,posx,i);
-		    	tanqueCenturion(matriz);
 		    	matriz[posx][posy].contPonto += 10;
 		    	matriz[posx][posy].contTanque += 1;
+		    	
+		    	cont = 7;
 		    	break;
 		    }
 		    
 		    if(matriz[posx][i].tipo == 8){
 		    	zeraCelula(matriz,posx,i);
-		    	tanqueInimigoOsorio(matriz);
 		    	matriz[posx][posy].contPonto += 10;
 		    	matriz[posx][posy].contTanque += 1;
+		    	
+		    	cont = 8;
 		    	break;
 			}
 	    }
 	    
 	    jogadaInimigoAbrams(matriz);
+	    jogadaInimigoCenturion(matriz);
+	    
+	    if(cont==6){
+      	  tanqueAbrams(matriz);	
+        }
+        if(cont==7){
+      	  tanqueCenturion(matriz);	
+        }
+        if(cont==8){
+      	  tanqueInimigoOsorio(matriz);	
+        }
 		
 	}
 	
 }
 
+
 //Movimenta aleatóriamente o tanque inimigo M1 Abrams.
 void jogadaInimigoAbrams(geral matriz[VETORX][VETORY]){
-	int i, j, posx, posy, aleJogada, aleMov, dirTiro, var=0;
+	int i, j, posx, posy, aleJogada, aleMov, dirTiro;
+	
+	srand(time(NULL));
 	
 	
 	//Encontrar tanque M1 Abrams.
 	for(i=0;i<=VETORY;i++){
 		for(j=0;j<=VETORY;j++){
+			
 			if(matriz[i][j].tipo==6){
 				posx = i;
 				posy = j;
-			}
-		}
-	}
-	
-	aleJogada = rand() %2;
+				
+				aleJogada = rand() %2;
 	
 	
-	if(aleJogada == 0){
+				if(aleJogada == 0){
 		
-		dirTiro = matriz[posx][posy].direcao;
+					dirTiro = matriz[posx][posy].direcao;
 		
-		switch(dirTiro){
+					switch(dirTiro){
 			
-			//Atira para o norte.
-			case 1:
+						//Atira para o norte.
+						case 1:
 				
-				j = posx - 3;
+							j = posx - 3;
 				
-				for(i=(posx - 1);i>=j;i--){
-					
-					if(matriz[i][posy].tipo == 3){
-	    				break;
-	   				}
-					
-					if(matriz[i][posy].tipo == 4){
-	    				zeraCelula(matriz,i,posy);
-	    				var=1;
-	    				break;
-					}
-					
-					if(matriz[i][posy].tipo == 5){
-						reviveOsorio(matriz,i,posy);
-	    				zeraCelula(matriz,i,posy);
-	    				var=1;
-	    				break;
-					}
-	    
-	    			if(matriz[i][posy].tipo == 6){
-	    				zeraCelula(matriz,i,posy);
-	    				tanqueAbrams(matriz);
-	    				var=1;
-	    				break;
-					}
-		
-					if(matriz[i][posy].tipo == 7){
-	    				zeraCelula(matriz,i,posy);
-	    				tanqueCenturion(matriz);
-	    				var=1;
-	    				break;
-	    			}
-	    
-					if(matriz[i][posy].tipo == 8){
-	    				zeraCelula(matriz,i,posy);
-	    				tanqueInimigoOsorio(matriz);
-	    				var=1;
-	    				break;
-					}
-					
-					var=1;
+							for(i=(posx - 1);i>=j;i--){
 								
-				}
-				
-				break;
-			
-			//Atira para Sul.	
-			case 2:
-				
-				j = posx + 3;
-				
-				for(i=(posx + 1);i<=j;i++){
+								if(matriz[i][posy].tipo == 1){
+	    							break;
+	   							}
+	   							
+	   							if(matriz[i][posy].tipo == 2){
+									zeraCelula(matriz,i,posy);
+	    							break;
+	   							}
 					
-					if(matriz[i][posy].tipo == 3){
-	    				break;
-	   				}
-					
-				if(matriz[i][posy].tipo == 4){
-	    				zeraCelula(matriz,i,posy);
-	    				var=1;
-	    				break;
-					}
-					
-					if(matriz[i][posy].tipo == 5){
-						reviveOsorio(matriz,i,posy);
-	    				zeraCelula(matriz,i,posy);
-	    				var=1;
-	    				break;
-					}
-	    
-	    			if(matriz[i][posy].tipo == 6){
-	    				zeraCelula(matriz,i,posy);
-	    				tanqueAbrams(matriz);
-	    				var=1;
-	    				break;
-					}
-		
-					if(matriz[i][posy].tipo == 7){
-	    				zeraCelula(matriz,i,posy);
-	    				tanqueCenturion(matriz);
-	    				var=1;
-	    				break;
-	    			}
-	    
-					if(matriz[i][posy].tipo == 8){
-	    				zeraCelula(matriz,i,posy);
-	    				tanqueInimigoOsorio(matriz);
-	    				var=1;
-	    				break;
-					}
-					
-					var=1;
-								
-				}						
-			
-		
-				break;
-			
-			//Atira para o Leste.
-			case 3:
-				
-				j = posy + 3;
-				
-				for(i=(posy + 1);i<=j;i++){
-					
-					if(matriz[posx][i].tipo == 3){
-	    				break;
-	   				}
-					
-					if(matriz[posx][i].tipo == 4){
-	    				zeraCelula(matriz,posx,i);
-	    				var=1;
-	    				break;
-					}
-					
-					if(matriz[posx][i].tipo == 5){
-						reviveOsorio(matriz,posx,i);
-	    				zeraCelula(matriz,posx,i);
-	    				var=1;
-	    				break;
-					}
-	    
-	    			if(matriz[posx][i].tipo == 6){
-	    				zeraCelula(matriz,posx,i);
-	    				tanqueAbrams(matriz);
-	    				var=1;
-	    				break;
-					}
-		
-					if(matriz[posx][i].tipo == 7){
-	    				zeraCelula(matriz,posx,i);
-	    				tanqueCenturion(matriz);
-	    				var=1;
-	    				break;
-	    			}
-	    
-					if(matriz[posx][i].tipo == 8){
-	    				zeraCelula(matriz,posx,i);
-	    				tanqueInimigoOsorio(matriz);
-	    				var=1;
-	    				break;
-					}
-					
-					var=1;
-								
-				}
-				
-				break;
-			
-			//Atira para o Oeste.
-			case 4:
-				
-				j = posy - 3;
-				
-				for(i=(posy - 1);i>=j;i--){
-					
-					if(matriz[posx][i].tipo == 3){
-		   				break;
-		  				}
-					
-					if(matriz[posx][i].tipo == 4){
-		   				zeraCelula(matriz,posx,i);
-		   				var=1;
-		   				break;
-					}
-					
-					if(matriz[posx][i].tipo == 5){
-						reviveOsorio(matriz,posx,i);
-		   				zeraCelula(matriz,posx,i);
-		   				var=1;
-		   				break;
-					}
-		   
-		   			if(matriz[posx][i].tipo == 6){
-		   				zeraCelula(matriz,posx,i);
-		   				tanqueAbrams(matriz);
-		   				var=1;
-		   				break;
-					}
-		
-					if(matriz[posx][i].tipo == 7){
-		   				zeraCelula(matriz,posx,i);
-		   				tanqueCenturion(matriz);
-		   				var=1;
-		   				break;
-		   			}
-		   
-					if(matriz[posx][i].tipo == 8){
-		   				zeraCelula(matriz,posx,i);
-		   				tanqueInimigoOsorio(matriz);
-		   				var=1;
-		   				break;
-					}
-					
-					var=1;
-								
-				}
-				
-				break;
-										
-		}
-				
-	}
-	
-	
-	if(aleJogada == 1){
-			
-		aleMov = rand() %4;
-		
-			switch(aleMov){
-			
-				//movimenta para o norte.
-				case 0:
-								
-					if(matriz[posx-1][posy].tipo==0){
-						matriz[posx-1][posy].tipo = matriz[posx][posy].tipo;
-						matriz[posx-1][posy].vida = matriz[posx][posy].vida;
-						matriz[posx-1][posy].contPonto = matriz[posx][posy].contPonto;
-						matriz[posx-1][posy].contTanque = matriz[posx][posy].contTanque;
-						matriz[posx-1][posy].direcao = 1;
-						matriz[posx-1][posy].sprite = matriz[posx][posy].sprite;
-						zeraCelula(matriz,posx,posy);
+								if(matriz[i][posy].tipo == 3){
+	    							break;
+	   							}
 						
-						var=1;
-					}
+								if(matriz[i][posy].tipo == 4){
+	   		 						zeraCelula(matriz,i,posy);
+	    							break;
+								}
 					
-					break;
+								if(matriz[i][posy].tipo == 5){
+									reviveOsorio(matriz,i,posy);
+	    							zeraCelula(matriz,i,posy);
+	   			 					break;
+								}
+	    
+	    						if(matriz[i][posy].tipo == 6){
+	    							zeraCelula(matriz,i,posy);
+	    							tanqueAbrams(matriz);
+	    							break;
+								}
+		
+								if(matriz[i][posy].tipo == 7){
+	   				 				zeraCelula(matriz,i,posy);
+	 				   				tanqueCenturion(matriz);
+	    							break;
+	    						}
+	    
+								if(matriz[i][posy].tipo == 8){
+	    							zeraCelula(matriz,i,posy);
+	    							tanqueInimigoOsorio(matriz);
+	    							break;
+								}
+								
+							}
 				
-				//Movimenta para Sul.	
-				case 1:
-											
-					if(matriz[posx+1][posy].tipo==0){
-						matriz[posx+1][posy].tipo = matriz[posx][posy].tipo;
-						matriz[posx+1][posy].vida = matriz[posx][posy].vida;
-						matriz[posx+1][posy].contPonto = matriz[posx][posy].contPonto;
-						matriz[posx+1][posy].contTanque = matriz[posx][posy].contTanque;
-						matriz[posx+1][posy].direcao = 2;
-						matriz[posx+1][posy].sprite = matriz[posx][posy].sprite;
-						zeraCelula(matriz,posx,posy);
-						
-						var=1;
-					}
+							break;
 			
-					break;
+						//Atira para Sul.	
+						case 2:
 				
-				//Movimenta para o Leste.
-					case 2:
+							j = posx + 3;
+				
+							for(i=(posx + 1);i<=j;i++){
+								
+								if(matriz[i][posy].tipo == 1){
+				    				break;
+	   							}
+	   							
+	   							if(matriz[i][posy].tipo == 2){
+	   								zeraCelula(matriz,i,posy);
+				    				break;
+	   							}
+					
+								if(matriz[i][posy].tipo == 3){
+				    				break;
+	   							}
+					
+								if(matriz[i][posy].tipo == 4){
+				    				zeraCelula(matriz,i,posy);
+	  				  				break;
+								}
+					
+								if(matriz[i][posy].tipo == 5){
+									reviveOsorio(matriz,i,posy);
+	    							zeraCelula(matriz,i,posy);
+	    							break;
+								}
+								if(matriz[i][posy].tipo == 6){
+	    							zeraCelula(matriz,i,posy);
+	    							tanqueAbrams(matriz);
+	    							break;
+								}
+		
+								if(matriz[i][posy].tipo == 7){
+	    							zeraCelula(matriz,i,posy);
+	    							tanqueCenturion(matriz);
+	    							break;
+	    						}
+	    
+								if(matriz[i][posy].tipo == 8){
+	    							zeraCelula(matriz,i,posy);
+	    							tanqueInimigoOsorio(matriz);
+	    							break;
+								}
+								
+							}	
+		
+							break;
+			
+						//Atira para o Leste.
+						case 3:
+				
+							j = posy + 3;
+					
+							for(i=(posy + 1);i<=j;i++){
+								
+								if(matriz[posx][i].tipo == 1){
+	    							break;
+	   							}
+								
+								if(matriz[posx][i].tipo == 2){
+									zeraCelula(matriz,posx,i);
+	    							break;
+	   							}
+					
+								if(matriz[posx][i].tipo == 3){
+	    							break;
+	   							}
+					
+								if(matriz[posx][i].tipo == 4){
+	    							zeraCelula(matriz,posx,i);
+	    							break;
+								}
+					
+								if(matriz[posx][i].tipo == 5){
+									reviveOsorio(matriz,posx,i);
+	    							zeraCelula(matriz,posx,i);
+	    							break;
+								}
+	    
+	    						if(matriz[posx][i].tipo == 6){
+	   				 				zeraCelula(matriz,posx,i);
+	    							tanqueAbrams(matriz);
+	   				 				break;
+								}
+		
+								if(matriz[posx][i].tipo == 7){
+	    							zeraCelula(matriz,posx,i);
+	    							tanqueCenturion(matriz);
+	    							break;
+	    						}
+	    
+								if(matriz[posx][i].tipo == 8){
+	    							zeraCelula(matriz,posx,i);
+	    							tanqueInimigoOsorio(matriz);
+	    							break;
+								}
+								
+							}
+				
+							break;
+		
+						//Atira para o Oeste.
+						case 4:
+				
+							j = posy - 3;
+				
+							for(i=(posy - 1);i>=j;i--){
+								
+								if(matriz[posx][i].tipo == 1){
+		   							break;
+					  			}
+					  			
+					  			if(matriz[posx][i].tipo == 2){
+					  				zeraCelula(matriz,posx,i);
+		   							break;
+					  			}
+				
+								if(matriz[posx][i].tipo == 3){
+		   							break;
+					  			}
+				
+								if(matriz[posx][i].tipo == 4){
+					  				zeraCelula(matriz,posx,i);
+	  								break;
+								}
+				
+								if(matriz[posx][i].tipo == 5){
+									reviveOsorio(matriz,posx,i);
+		   							zeraCelula(matriz,posx,i);
+		   							break;
+								}
+								
+								if(matriz[posx][i].tipo == 6){
+									zeraCelula(matriz,posx,i);
+		   							tanqueAbrams(matriz);
+		   							break;
+								}
+		
+								if(matriz[posx][i].tipo == 7){
+		   							zeraCelula(matriz,posx,i);
+		   							tanqueCenturion(matriz);
+		   							break;
+		   						}
+		   						
+		   						if(matriz[posx][i].tipo == 8){
+		   							zeraCelula(matriz,posx,i);
+		   							tanqueInimigoOsorio(matriz);
+		   							break;
+								}
 									
-					if(matriz[posx][posy+1].tipo==0){
-						matriz[posx][posy+1].tipo = matriz[posx][posy].tipo;
-						matriz[posx][posy+1].vida = matriz[posx][posy].vida;
-						matriz[posx][posy+1].contPonto = matriz[posx][posy].contPonto;
-						matriz[posx][posy+1].contTanque = matriz[posx][posy].contTanque;
-						matriz[posx][posy+1].direcao = 3;
-						matriz[posx][posy+1].sprite = matriz[posx][posy].sprite;
-						zeraCelula(matriz,posx,posy);
-						
-						var=1;
-					}
-					
-					break;
+							}
 				
-				//Movimenta para o Oeste.
-				case 3:
-											
-					if(matriz[posx][posy-1].tipo==0){	
-						matriz[posx][posy-1].tipo = matriz[posx][posy].tipo;
-						matriz[posx][posy-1].vida = matriz[posx][posy].vida;
-						matriz[posx][posy-1].contPonto = matriz[posx][posy].contPonto;
-						matriz[posx][posy-1].contTanque = matriz[posx][posy].contTanque;
-						matriz[posx][posy-1].direcao = 4;
-						matriz[posx][posy-1].sprite = matriz[posx][posy].sprite;
-						zeraCelula(matriz,posx,posy);
-						
-						var=1;
+							break;
+										
 					}
 				
-					break;
-			}
-		
-	}
+				}
 	
+	
+				if(aleJogada == 1){
+			
+					aleMov = rand() %4;
+		
+					switch(aleMov){
+			
+						//movimenta para o norte.
+						case 0:
+							
+							if(matriz[posx-1][posy].tipo==0){
+								matriz[posx-1][posy].tipo = matriz[posx][posy].tipo;
+								matriz[posx-1][posy].vida = matriz[posx][posy].vida;
+								matriz[posx-1][posy].contPonto = matriz[posx][posy].contPonto;
+								matriz[posx-1][posy].contTanque = matriz[posx][posy].contTanque;
+								matriz[posx-1][posy].direcao = 1;
+								matriz[posx-1][posy].sprite = matriz[posx][posy].sprite;
+								zeraCelula(matriz,posx,posy);
+							}
+				
+							break;
+			
+						//Movimenta para Sul.	
+						case 1:
+										
+							if(matriz[posx+1][posy].tipo==0){
+								matriz[posx+1][posy].tipo = matriz[posx][posy].tipo;
+								matriz[posx+1][posy].vida = matriz[posx][posy].vida;
+								matriz[posx+1][posy].contPonto = matriz[posx][posy].contPonto;
+								matriz[posx+1][posy].contTanque = matriz[posx][posy].contTanque;
+								matriz[posx+1][posy].direcao = 2;
+								matriz[posx+1][posy].sprite = matriz[posx][posy].sprite;
+								zeraCelula(matriz,posx,posy);
+							}
+		
+							break;
+			
+						//Movimenta para o Leste.
+						case 2:
+								
+							if(matriz[posx][posy+1].tipo==0){
+								matriz[posx][posy+1].tipo = matriz[posx][posy].tipo;
+								matriz[posx][posy+1].vida = matriz[posx][posy].vida;
+								matriz[posx][posy+1].contPonto = matriz[posx][posy].contPonto;
+								matriz[posx][posy+1].contTanque = matriz[posx][posy].contTanque;
+								matriz[posx][posy+1].direcao = 3;
+								matriz[posx][posy+1].sprite = matriz[posx][posy].sprite;
+								zeraCelula(matriz,posx,posy);
+							}
+						
+							break;
+			
+						//Movimenta para o Oeste.
+						case 3:
+										
+							if(matriz[posx][posy-1].tipo==0){	
+								matriz[posx][posy-1].tipo = matriz[posx][posy].tipo;
+								matriz[posx][posy-1].vida = matriz[posx][posy].vida;
+								matriz[posx][posy-1].contPonto = matriz[posx][posy].contPonto;
+								matriz[posx][posy-1].contTanque = matriz[posx][posy].contTanque;
+								matriz[posx][posy-1].direcao = 4;
+								matriz[posx][posy-1].sprite = matriz[posx][posy].sprite;
+								zeraCelula(matriz,posx,posy);
+							}
+					
+							break;
+					}
+				}
+			}
+		}
+	}
 }
 
+
+//Movimenta aleatóriamente o tanque inimigo Centurion.
+void jogadaInimigoCenturion(geral matriz[VETORX][VETORY]){
+	int i, j, posx, posy, alemov, dirTiro, aleJogada, x, y;
+	
+	
+	//Encontrar tanque Centurion.
+	for(i=0;i<=VETORY;i++){
+		for(j=0;j<=VETORY;j++){
+			
+			if(matriz[i][j].tipo==7){
+				posx = i;
+				posy = j;
+				
+				for(i=0;i<2;i++){
+	
+					aleJogada = rand() %2;
+		
+					if(aleJogada == 0){
+				
+						dirTiro = matriz[posx][posy].direcao;
+				
+						switch(dirTiro){
+				
+							//Atira para o norte.
+							case 1:
+						
+								x = posx-1;
+						
+								if(matriz[x][posy].tipo == 1){
+					    			break;
+								}
+						
+								if(matriz[x][posy].tipo == 2){
+			    					zeraCelula(matriz,x,posy);
+			    					break;
+								}
+						
+								if(matriz[x][posy].tipo == 3){
+							    	zeraCelula(matriz,x,posy);
+					    			break;
+								}
+						
+								if(matriz[x][posy].tipo == 4){
+			  						zeraCelula(matriz,x,posy);
+			    					break;
+								}
+						
+								if(matriz[x][posy].tipo == 5){
+									reviveOsorio(matriz,x,posy);
+					   				zeraCelula(matriz,x,posy);
+					   				break;
+								}
+									
+								if(matriz[x][posy].tipo == 6){
+									tanqueAbrams(matriz);
+					    			zeraCelula(matriz,x,posy);
+					    			break;
+								}
+				
+								if(matriz[x][posy].tipo == 7){
+					    			tanqueCenturion(matriz);
+		 			   				zeraCelula(matriz,x,posy);
+		    						break;
+		    					}
+		    
+								if(matriz[x][posy].tipo == 8){
+		    						tanqueInimigoOsorio(matriz);
+		    						zeraCelula(matriz,x,posy);
+		    						break;
+								}
+						
+							//Atira para Sul.	
+							case 2:
+						
+								x = posx + 1;
+						
+								if(matriz[x][posy].tipo == 1){
+					    			break;
+								}
+						
+								if(matriz[x][posy].tipo == 2){
+					    			zeraCelula(matriz,x,posy);
+					    			break;
+								}
+						
+								if(matriz[x][posy].tipo == 3){
+					    			zeraCelula(matriz,x,posy);
+					    			break;
+								}
+							
+								if(matriz[x][posy].tipo == 4){
+					    			zeraCelula(matriz,x,posy);
+					    			break;
+								}
+						
+								if(matriz[x][posy].tipo == 5){
+									reviveOsorio(matriz,x,posy);
+					    			zeraCelula(matriz,x,posy);
+					    			break;
+								}
+						
+								if(matriz[x][posy].tipo == 6){
+					    			tanqueAbrams(matriz);
+			    					zeraCelula(matriz,x,posy);
+			    					break;
+								}
+						
+								if(matriz[x][posy].tipo == 7){
+					    			tanqueCenturion(matriz);
+					    			zeraCelula(matriz,x,posy);
+					    			break;
+					   			}
+			   
+								if(matriz[x][posy].tipo == 8){
+				    				tanqueInimigoOsorio(matriz);
+			 		   				zeraCelula(matriz,x,posy);
+				    				break;
+								}
+					
+							//Atira para o Leste.
+							case 3:
+						
+								y = posy + 1;
+						
+								if(matriz[posx][y].tipo == 1){
+					    			break;
+								}
+								
+								if(matriz[posx][y].tipo == 2){
+					    			zeraCelula(matriz,posx,y);
+						    		break;
+								}
+						
+								if(matriz[posx][y].tipo == 3){
+			    					zeraCelula(matriz,posx,y);
+			    					break;
+								}
+							
+								if(matriz[posx][y].tipo == 4){
+			    					zeraCelula(matriz,posx,y);
+			    					break;
+								}
+						
+								if(matriz[posx][y].tipo == 5){
+									reviveOsorio(matriz,posx,y);
+					    			zeraCelula(matriz,posx,y);
+			    					break;
+								}
+								
+								if(matriz[posx][y].tipo == 6){
+					    			tanqueAbrams(matriz);
+					    			zeraCelula(matriz,posx,y);
+					    			break;
+								}
+								
+								if(matriz[posx][y].tipo == 7){
+					    			tanqueCenturion(matriz);
+					    			zeraCelula(matriz,posx,y);
+					    			break;
+					    		}
+						
+								if(matriz[posx][y].tipo == 8){
+					    			tanqueInimigoOsorio(matriz);
+					    			zeraCelula(matriz,posx,y);
+					    			break;
+								}
+					
+							//Atira para o Oeste.
+							case 4:
+						
+								y =  posy - 1;
+								
+								if(matriz[posx][y].tipo == 1){
+					    			zeraCelula(matriz,posx,y);
+					    			break;
+								}
+								
+								if(matriz[posx][y].tipo == 2){
+					    			zeraCelula(matriz,posx,y);
+					    			break;
+								}
+								
+								if(matriz[posx][y].tipo == 3){
+					    			zeraCelula(matriz,posx,y);
+					    			break;
+								}
+									
+								if(matriz[posx][y].tipo == 4){
+					    			zeraCelula(matriz,posx,y);
+					   				break;
+								}
+								
+								if(matriz[posx][y].tipo == 5){
+									reviveOsorio(matriz,posx,y);
+					    			zeraCelula(matriz,posx,y);
+					    			break;
+								}
+								
+								if(matriz[posx][y].tipo == 6){
+					   				tanqueAbrams(matriz);
+									zeraCelula(matriz,posx,y);
+					   				break;
+								}
+					
+								if(matriz[posx][y].tipo == 7){
+					    			tanqueCenturion(matriz);
+					    			zeraCelula(matriz,posx,y);
+					    			break;
+					    		}
+								
+								if(matriz[posx][y].tipo == 8){
+					    			tanqueInimigoOsorio(matriz);
+					    			zeraCelula(matriz,posx,y);
+					   				break;
+								}
+						
+						}
+					}
+				
+		
+					if(aleJogada == 1){
+			
+						alemov = rand() %4;
+			
+						switch(alemov){
+				
+							//movimenta para o norte.
+							case 0:
+									
+								if(matriz[posx-1][posy].tipo==0){
+									matriz[posx-1][posy].tipo = matriz[posx][posy].tipo;
+									matriz[posx-1][posy].vida = matriz[posx][posy].vida;
+									matriz[posx-1][posy].contPonto = matriz[posx][posy].contPonto;
+									matriz[posx-1][posy].contTanque = matriz[posx][posy].contTanque;
+									matriz[posx-1][posy].direcao = 1;
+									matriz[posx-1][posy].sprite = matriz[posx][posy].sprite;
+									zeraCelula(matriz,posx,posy);
+								}
+								
+								break;
+							
+							//Movimenta para Sul.	
+							case 1:
+														
+								if(matriz[posx+1][posy].tipo==0){
+									matriz[posx+1][posy].tipo = matriz[posx][posy].tipo;
+									matriz[posx+1][posy].vida = matriz[posx][posy].vida;
+									matriz[posx+1][posy].contPonto = matriz[posx][posy].contPonto;
+									matriz[posx+1][posy].contTanque = matriz[posx][posy].contTanque;
+									matriz[posx+1][posy].direcao = 2;
+									matriz[posx+1][posy].sprite = matriz[posx][posy].sprite;
+									zeraCelula(matriz,posx,posy);
+								}
+						
+								break;
+							
+							//Movimenta para o Leste.
+							case 2:
+													
+								if(matriz[posx][posy+1].tipo==0){
+									matriz[posx][posy+1].tipo = matriz[posx][posy].tipo;
+									matriz[posx][posy+1].vida = matriz[posx][posy].vida;
+									matriz[posx][posy+1].contPonto = matriz[posx][posy].contPonto;
+									matriz[posx][posy+1].contTanque = matriz[posx][posy].contTanque;
+									matriz[posx][posy+1].direcao = 3;
+									matriz[posx][posy+1].sprite = matriz[posx][posy].sprite;
+									zeraCelula(matriz,posx,posy);
+								}
+								
+								break;
+							
+							//Movimenta para o Oeste.
+							case 3:
+														
+								if(matriz[posx][posy-1].tipo==0){	
+									matriz[posx][posy-1].tipo = matriz[posx][posy].tipo;
+									matriz[posx][posy-1].vida = matriz[posx][posy].vida;
+									matriz[posx][posy-1].contPonto = matriz[posx][posy].contPonto;
+									matriz[posx][posy-1].contTanque = matriz[posx][posy].contTanque;
+									matriz[posx][posy-1].direcao = 4;
+									matriz[posx][posy-1].sprite = matriz[posx][posy].sprite;
+									zeraCelula(matriz,posx,posy);
+								}
+							
+								break;
+						
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
+}
