@@ -241,12 +241,13 @@ int main() {
 						
 						if(contFase == 1){
 							//VITORIA
+							ranking(ponto);
 						}
 						
 						if(contFase == 2){
 							
 							derrota(vida,ponto);
-							 
+							ranking(ponto);
 							break;
 						}
 						
@@ -254,14 +255,14 @@ int main() {
 					if(contFase == 2){
 						
 						derrota(vida,ponto);
-						
+						ranking(ponto);
 						break;
 					}
 				}
 				if(contFase == 2){
 					
 					derrota(vida,ponto);
-					
+					ranking(ponto);
 					break;
 				}
 				
@@ -269,7 +270,12 @@ int main() {
 			
 			//Debug.	
 			case 2 :
-				break;		
+				break;	
+			
+			//Lista.
+			case 3 :
+				imprimeRanking();
+				break;	
 		}
 	}
 	while(menuprincipal != 4);
@@ -682,40 +688,41 @@ void reviveOsorio(geral matriz[VETORX][VETORY], int x, int y){
 }
 
 
-void ranking(geral matriz[VETORX][VETORY]){
-	FILE *fa,*fr;
+void ranking(int ponto){
+	FILE *fa;
 	char nome[10];
-	char c;
-	int i, j,posx,posy;
-	
-	//Encontrar tanque Osório.
-	for(i=0;i<=VETORY;i++){
-		for(j=0;j<=VETORY;j++){
-			if(matriz[i][j].tipo==5){
-				posx = i;
-				posy = j;
-			}
-		}
-	}
 	
 	 fa=fopen("ranking.txt","a");
 	 
 	 printf("Digite seu nome: ");
 	 gets(nome);
 	 
-	 fprintf(fa,"\n%s %d",nome,matriz[posx][posy].contPonto);
+	 fprintf(fa,"\n%s %d",nome,ponto);
 	 
 	 fclose(fa);
-	 
-	 fr=fopen("ranking.txt","r");
-	 
-	 while(fscanf(fr,"%c",&c)!= EOF){
-	 	printf("%c",c);
-	 }
-	 
-     fclose(fr);
 }
 
+void imprimeRanking(){
+     FILE *fa;
+     char c;
+     
+     system("cls");
+ 
+     fa=fopen("ranking.txt","r");
+	 if(fa==NULL){
+	 	perror("Erro ao abrir");
+}
+     else{
+     printf("\n\n\t");
+	 while( fscanf(fa,"%c",&c) != EOF){
+	 	printf("%c",c);
+	 }
+	 printf("\n\n");
+}
+     fclose(fa);
+     
+     system("PAUSE");
+}
 
 //Recebe os parâmetros da Fase 1.
 int fase1 (geral matriz[VETORX][VETORY], geral matrizAux[VETORX][VETORY],int *ponto,int *vida, int *tanque){
