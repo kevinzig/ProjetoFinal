@@ -1771,43 +1771,46 @@ void jogadaInimigoCenturion(geral matriz[VETORX][VETORY]){
 							
 							x = posx-1;
 							
+							if(matriz[x][posy].tipo == 1){
+				    			break;
+							}
+							
+							if(matriz[x][posy].tipo == 2){
+				    			zeraCelula(matriz,x,posy);
+				    			break;
+							}
+							
 							if(matriz[x][posy].tipo == 3){
 				    			zeraCelula(matriz,x,posy);
-				    			
 				    			break;
 							}
 							
 							if(matriz[x][posy].tipo == 4){
 				    			zeraCelula(matriz,x,posy);
-				    			
 				    			break;
 							}
 							
 							if(matriz[x][posy].tipo == 5){
 								reviveOsorio(matriz,x,posy);
 				   				zeraCelula(matriz,x,posy);
-				   				
 				   				break;
 							}
 							
 							if(matriz[x][posy].tipo == 6){
 				    			zeraCelula(matriz,x,posy);
 				    			tanqueAbrams(matriz);
-				    			
 				    			break;
 							}
 					
 							if(matriz[x][posy].tipo == 7){
 			    				zeraCelula(matriz,x,posy);
 			    				tanqueCenturion(matriz);
-			    				
 			    				break;
 			    			}
 			    
 							if(matriz[x][posy].tipo == 8){
 			    				zeraCelula(matriz,x,posy);
 			    				tanqueInimigoOsorio(matriz);
-			    				
 			    				break;
 							}
 							
@@ -1818,43 +1821,46 @@ void jogadaInimigoCenturion(geral matriz[VETORX][VETORY]){
 							
 							x = posx + 1;
 							
+							if(matriz[x][posy].tipo == 1){
+				    			break;
+							}
+							
+							if(matriz[x][posy].tipo == 2){
+				    			zeraCelula(matriz,x,posy);
+				    			break;
+							}
+							
 							if(matriz[x][posy].tipo == 3){
 				    			zeraCelula(matriz,x,posy);
-				    			
 				    			break;
 							}
 								
 							if(matriz[x][posy].tipo == 4){
 				    			zeraCelula(matriz,x,posy);
-				    			
 				    			break;
 							}
 							
 							if(matriz[x][posy].tipo == 5){
 								reviveOsorio(matriz,x,posy);
 				    			zeraCelula(matriz,x,posy);
-				    			
 				    			break;
 							}
 							
 							if(matriz[x][posy].tipo == 6){
 				    			zeraCelula(matriz,x,posy);
 				    			tanqueAbrams(matriz);
-				    			
 				    			break;
 							}
 							
 							if(matriz[x][posy].tipo == 7){
 				    			zeraCelula(matriz,x,posy);
 				    			tanqueCenturion(matriz);
-				    			
 				    			break;
 				   			}
 				   
 							if(matriz[x][posy].tipo == 8){
 			    				zeraCelula(matriz,x,posy);
 			    				tanqueInimigoOsorio(matriz);
-			    				
 			    				break;
 							}
 							
@@ -1865,9 +1871,17 @@ void jogadaInimigoCenturion(geral matriz[VETORX][VETORY]){
 							
 							y = posy + 1;
 							
+							if(matriz[posx][y].tipo == 1){
+				    			break;
+							}
+							
+							if(matriz[posx][y].tipo == 2){
+				    			zeraCelula(matriz,posx,y);
+				    			break;
+							}
+							
 							if(matriz[posx][y].tipo == 3){
 				    			zeraCelula(matriz,posx,y);
-				    			
 				    			break;
 							}
 								
@@ -1912,36 +1926,40 @@ void jogadaInimigoCenturion(geral matriz[VETORX][VETORY]){
 							
 							y =  posy - 1;
 							
+							if(matriz[posx][y].tipo == 1){
+				    			break;
+							}
+							
+							if(matriz[posx][y].tipo == 2){
+				    			zeraCelula(matriz,posx,y);
+				    			break;
+							}
+							
 							if(matriz[posx][y].tipo == 3){
 				    			zeraCelula(matriz,posx,y);
-				    			
 				    			break;
 							}
 								
 							if(matriz[posx][y].tipo == 4){
 				    			zeraCelula(matriz,posx,y);
-				   				
 				   				break;
 							}
 							
 							if(matriz[posx][y].tipo == 5){
 								reviveOsorio(matriz,posx,y);
 				    			zeraCelula(matriz,posx,y);
-				    			
 				    			break;
 							}
 							
 							if(matriz[posx][y].tipo == 6){
 								zeraCelula(matriz,posx,y);
 				   				tanqueAbrams(matriz);
-				   				
 				   				break;
 							}
 				
 							if(matriz[posx][y].tipo == 7){
 				    				zeraCelula(matriz,posx,y);
 				    				tanqueCenturion(matriz);
-				    				
 				    				break;
 				    		}
 							
